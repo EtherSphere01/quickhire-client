@@ -12,7 +12,6 @@ export default function Header() {
     const [menuOpen, setMenuOpen] = useState(false);
     const headerRef = useRef<HTMLElement>(null);
 
-    // Close menu when clicking anywhere outside the header
     useEffect(() => {
         if (!menuOpen) return;
         const handleClick = (e: MouseEvent) => {
@@ -62,7 +61,7 @@ export default function Header() {
                 <div className="hidden lg:flex items-center gap-4 h-12">
                     <Button
                         variant={"secondary"}
-                        className="px-6 py-3 text-[16px] font-bold bg-white text-[#4640DE] "
+                        className="px-6 py-3 text-[16px] font-bold bg-[#F8F8FD] text-[#4640DE] "
                     >
                         Login
                     </Button>
