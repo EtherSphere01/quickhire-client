@@ -24,6 +24,12 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
+            <head>
+                <link
+                    rel="stylesheet"
+                    href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap"
+                />
+            </head>
             <body
                 className={`${epilogue.variable} ${redHatDisplay.variable} font-sans antialiased`}
             >
