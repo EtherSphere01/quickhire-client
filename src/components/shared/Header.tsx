@@ -29,7 +29,7 @@ export default function Header() {
     return (
         <header
             ref={headerRef}
-            className="relative container mx-auto py-2 md:py-5.25 px-4"
+            className="relative container mx-auto py-2 md:py-5.25 px-4 lg:px-[125px] z-30"
         >
             <div className="flex items-center justify-between">
                 <div className="flex items-center md:gap-12">
@@ -61,7 +61,7 @@ export default function Header() {
                 <div className="hidden lg:flex items-center gap-4 h-12">
                     <Button
                         variant={"secondary"}
-                        className="px-6 py-3 text-[16px] font-bold bg-[#F8F8FD] text-[#4640DE] "
+                        className="px-6 py-3 text-[16px] font-bold bg-transparent text-[#4640DE] "
                     >
                         Login
                     </Button>

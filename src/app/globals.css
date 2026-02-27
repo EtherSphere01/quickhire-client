@@ -123,6 +123,15 @@
     body {
         @apply bg-background text-foreground;
     }
+    .container {
+        max-width: 1440px;
+    }
+    @media (min-width: 1024px) {
+        .container {
+            padding-left: 125px;
+            padding-right: 125px;
+        }
+    }
     h1,
     h2,
     h3,
