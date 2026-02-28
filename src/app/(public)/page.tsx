@@ -1,5 +1,8 @@
 import CompanyList from "@/components/modules/LandingPage/CompanyList";
+import ExploreCategory from "@/components/modules/LandingPage/ExploreCategory";
+import FeaturedJobs from "@/components/modules/LandingPage/FeaturedJobs";
 import HeroSection from "@/components/modules/LandingPage/HeroSection";
+import PostingJobsBanner from "@/components/modules/LandingPage/PostingJobsBanner";
 import Image from "next/image";
 import React from "react";
 
@@ -33,6 +36,16 @@ export default function Home() {
             </div>
             <div className="py-10 md:py-12">
                 <CompanyList />
+            </div>
+
+            <div className="lg:pt-18 ">
+                <ExploreCategory />
+            </div>
+            <div className="pt-10 lg:pt-18 ">
+                <PostingJobsBanner />
+            </div>
+            <div className="pt-10 lg:pt-18  ">
+                <FeaturedJobs />
             </div>
         </div>
     );

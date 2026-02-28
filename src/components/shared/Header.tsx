@@ -1,7 +1,7 @@
 "use client";
 
 import { Logo } from "@/svg/Logo";
-import { NavItems } from "@/utils/navItems";
+import { NavItems } from "@/content/navItems/navItems";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
