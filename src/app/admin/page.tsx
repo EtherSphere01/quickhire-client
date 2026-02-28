@@ -108,9 +108,7 @@ export default function AdminDashboard() {
                             <p className="text-2xl sm:text-3xl font-bold text-white">
                                 {totalJobs}
                             </p>
-                            <p className="text-sm text-white/80">
-                                Jobs Open
-                            </p>
+                            <p className="text-sm text-white/80">Jobs Open</p>
                         </div>
                     </div>
                     <ChevronRightIcon className="h-5 w-5 text-white/60 group-hover:text-white transition-colors" />
@@ -141,9 +139,7 @@ export default function AdminDashboard() {
                             <p className="text-2xl sm:text-3xl font-bold text-white">
                                 {categoryEntries.length}
                             </p>
-                            <p className="text-sm text-white/80">
-                                Categories
-                            </p>
+                            <p className="text-sm text-white/80">Categories</p>
                         </div>
                     </div>
                 </div>
@@ -259,15 +255,11 @@ export default function AdminDashboard() {
                     <table className="w-full text-left text-sm">
                         <thead>
                             <tr className="border-b border-[#D6DDEB] text-[#7C8493]">
-                                <th className="pb-3 pr-4 font-medium">
-                                    Title
-                                </th>
+                                <th className="pb-3 pr-4 font-medium">Title</th>
                                 <th className="pb-3 pr-4 font-medium">
                                     Company
                                 </th>
-                                <th className="pb-3 pr-4 font-medium">
-                                    Type
-                                </th>
+                                <th className="pb-3 pr-4 font-medium">Type</th>
                                 <th className="pb-3 font-medium">Date</th>
                             </tr>
                         </thead>

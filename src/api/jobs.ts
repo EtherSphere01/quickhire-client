@@ -23,8 +23,7 @@ export const jobApi = {
             credentials: "include",
         });
         const data = await res.json();
-        if (!res.ok)
-            throw new Error(data.message || "Failed to fetch stats");
+        if (!res.ok) throw new Error(data.message || "Failed to fetch stats");
         return data;
     },
 
