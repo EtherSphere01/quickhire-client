@@ -9,7 +9,9 @@ export default function layout({ children }: { children: React.ReactNode }) {
                 <Header />
             </nav>
             {children}
-            <Footer />
+            <div className="bg-[#202430]">
+                <Footer />
+            </div>
         </div>
     );
 }

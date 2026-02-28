@@ -2,6 +2,7 @@ import CompanyList from "@/components/modules/LandingPage/CompanyList";
 import ExploreCategory from "@/components/modules/LandingPage/ExploreCategory";
 import FeaturedJobs from "@/components/modules/LandingPage/FeaturedJobs";
 import HeroSection from "@/components/modules/LandingPage/HeroSection";
+import LatestJobs from "@/components/modules/LandingPage/LatestJobs";
 import PostingJobsBanner from "@/components/modules/LandingPage/PostingJobsBanner";
 import Image from "next/image";
 import React from "react";
@@ -46,6 +47,20 @@ export default function Home() {
             </div>
             <div className="pt-10 lg:pt-18  ">
                 <FeaturedJobs />
+            </div>
+            <div className="pt-24 lg:pt-18 bg-[#F8F8FD] mt-10 lg:mt-18 relative overflow-hidden">
+                <div className="h-50 w-100 bg-white rotate-[-30deg] absolute -left-30 -top-48 md:-top-45 lg:-top-50 "></div>
+
+                <Image
+                    src="/images/pattern.svg"
+                    width={1260}
+                    height={994}
+                    className="hidden lg:block absolute top-0 -right-10 h-full w-[80%] object-contain object-top-right pointer-events-none z-0"
+                    alt="Pattern"
+                />
+                <div className="relative z-10">
+                    <LatestJobs />
+                </div>
             </div>
         </div>
     );

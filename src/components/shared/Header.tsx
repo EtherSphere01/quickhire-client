@@ -5,8 +5,8 @@ import { NavItems } from "@/content/navItems/navItems";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
-import { MenuIcon } from "@/svg/LandingPage/MenuIcon";
-import { CrossIcon } from "@/svg/LandingPage/CrossIcon";
+import { MenuIcon } from "@/svg/header/MenuIcon";
+import { CrossIcon } from "@/svg/header/CrossIcon";
 
 export default function Header() {
     const [menuOpen, setMenuOpen] = useState(false);
