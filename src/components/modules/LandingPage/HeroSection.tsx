@@ -5,7 +5,7 @@ import SearchBox from "./SearchBox";
 
 export default function HeroSection() {
     return (
-        <div className="container mx-auto relative overflow-visible">
+        <div className="container mx-auto relative overflow-visible px-4">
             <div className="flex justify-between">
                 <div>
                     <div className="pt-2.5  w-85.75 md:w-120 lg:w-133.25 ">
@@ -31,7 +31,7 @@ export default function HeroSection() {
                     </div>
                 </div>
 
-                <div className="hidden lg:block z-30">
+                <div className="hidden lg:block z-30 relative">
                     <Image
                         src="/images/HeroImage.png"
                         alt="Hero Image"
@@ -39,6 +39,7 @@ export default function HeroSection() {
                         height={707}
                         className="z-30 h-full"
                     />
+                    <div className="w-70.75 h-200 bg-white absolute top-80 left-70 rotate-60"></div>
                 </div>
             </div>
         </div>

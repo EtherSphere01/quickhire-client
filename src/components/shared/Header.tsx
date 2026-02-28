@@ -29,7 +29,7 @@ export default function Header() {
     return (
         <header
             ref={headerRef}
-            className="relative container mx-auto py-2 md:py-5.25 px-4 lg:px-[125px] z-30"
+            className="relative container mx-auto py-2 md:py-5.25 px-4 z-30"
         >
             <div className="flex items-center justify-between">
                 <div className="flex items-center md:gap-12">
