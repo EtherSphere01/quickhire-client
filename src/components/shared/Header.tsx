@@ -7,10 +7,12 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { MenuIcon } from "@/svg/header/MenuIcon";
 import { CrossIcon } from "@/svg/header/CrossIcon";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Header() {
     const [menuOpen, setMenuOpen] = useState(false);
     const headerRef = useRef<HTMLElement>(null);
+    const { user, isAdmin, isAuthenticated, logout, isLoading } = useAuth();
 
     useEffect(() => {
         if (!menuOpen) return;
@@ -54,21 +56,56 @@ export default function Header() {
                                 {item.name}
                             </Link>
                         ))}
+                        {isAdmin && (
+                            <Link
+                                href="/admin"
+                                className="ml-6 text-[16px] font-medium text-[#4640DE] hover:text-[#3530c9]"
+                            >
+                                Admin Panel
+                            </Link>
+                        )}
                     </div>
                 </div>
 
                 {/* Desktop */}
                 <div className="hidden lg:flex items-center gap-4 h-12">
-                    <Button
-                        variant={"secondary"}
-                        className="px-6 py-3 text-[16px] font-bold bg-transparent text-[#4640DE] "
-                    >
-                        Login
-                    </Button>
-                    <div className="border-l bg-[#D6DDEB] h-full"></div>
-                    <Button className="px-6 py-3 text-[16px] font-bold ">
-                        Sign Up
-                    </Button>
+                    {isLoading ? (
+                        <div className="h-5 w-24 animate-pulse rounded bg-[#D6DDEB]" />
+                    ) : isAuthenticated ? (
+                        <>
+                            <span className="text-sm text-[#515B6F]">
+                                Hi,{" "}
+                                <span className="font-semibold text-[#25324B]">
+                                    {user?.name}
+                                </span>
+                            </span>
+                            <div className="border-l bg-[#D6DDEB] h-full" />
+                            <Button
+                                onClick={logout}
+                                variant="secondary"
+                                className="px-6 py-3 text-[16px] font-bold bg-transparent text-red-500 hover:text-red-700 cursor-pointer"
+                            >
+                                Logout
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <Link href="/login">
+                                <Button
+                                    variant="secondary"
+                                    className="px-6 py-3 text-[16px] font-bold bg-transparent text-[#4640DE] cursor-pointer"
+                                >
+                                    Login
+                                </Button>
+                            </Link>
+                            <div className="border-l bg-[#D6DDEB] h-full" />
+                            <Link href="/signup">
+                                <Button className="px-6 py-3 text-[16px] font-bold cursor-pointer">
+                                    Sign Up
+                                </Button>
+                            </Link>
+                        </>
+                    )}
                 </div>
 
                 {/* Mobile Menu */}
@@ -94,17 +131,50 @@ export default function Header() {
                             {item.name}
                         </Link>
                     ))}
+                    {isAdmin && (
+                        <Link
+                            href="/admin"
+                            onClick={() => setMenuOpen(false)}
+                            className="text-[16px] font-medium text-[#4640DE]"
+                        >
+                            Admin Panel
+                        </Link>
+                    )}
 
                     <div className="flex flex-col gap-3 mt-2">
-                        <Button
-                            variant={"secondary"}
-                            className="w-full px-6 py-3 text-[16px] font-bold bg-white text-[#4640DE] border border-[#4640DE]"
-                        >
-                            Login
-                        </Button>
-                        <Button className="w-full px-6 py-3 text-[16px] font-bold">
-                            Sign Up
-                        </Button>
+                        {isAuthenticated ? (
+                            <>
+                                <p className="text-sm text-center text-[#515B6F]">
+                                    {user?.name} ({user?.role})
+                                </p>
+                                <Button
+                                    onClick={() => {
+                                        logout();
+                                        setMenuOpen(false);
+                                    }}
+                                    variant="secondary"
+                                    className="w-full px-6 py-3 text-[16px] font-bold bg-white text-red-500 border border-red-500 cursor-pointer"
+                                >
+                                    Logout
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Link href="/login" onClick={() => setMenuOpen(false)}>
+                                    <Button
+                                        variant="secondary"
+                                        className="w-full px-6 py-3 text-[16px] font-bold bg-white text-[#4640DE] border border-[#4640DE] cursor-pointer"
+                                    >
+                                        Login
+                                    </Button>
+                                </Link>
+                                <Link href="/signup" onClick={() => setMenuOpen(false)}>
+                                    <Button className="w-full px-6 py-3 text-[16px] font-bold cursor-pointer">
+                                        Sign Up
+                                    </Button>
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </nav>
             )}

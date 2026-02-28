@@ -58,7 +58,7 @@ export default function Home() {
                     className="hidden lg:block absolute top-0 -right-10 h-full w-[80%] object-contain object-top-right pointer-events-none z-0"
                     alt="Pattern"
                 />
-                <div className="relative z-10">
+                <div className="relative z-10 pb-6 lg:pb-0">
                     <LatestJobs />
                 </div>
             </div>

@@ -1,22 +1,82 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { jobApi } from "@/api/jobs";
+import type { Job } from "@/api/types";
+import { JOB_TYPE_LABELS } from "@/api/types";
+import type { FeaturedJobProps } from "@/content/landingPage/FeaturedJobs";
 import { FeaturedJobsData } from "@/content/landingPage/FeaturedJobs";
-import { useState } from "react";
 import FeatureJobCard from "./FeatureJobCard";
 import ShowAllJobsButton from "./ShowAllJobsButton";
+import Link from "next/link";
+
+const CATEGORY_STYLES: Record<string, { color: string; bgColor: string }> = {
+    Design: { color: "#FFB836", bgColor: "#EB85331A" },
+    Marketing: { color: "#4640DE", bgColor: "#4640DE1A" },
+    Technology: { color: "#56CDAD", bgColor: "#56CDAD1A" },
+    Business: { color: "#26A4FF", bgColor: "#26A4FF1A" },
+    Engineering: { color: "#4640DE", bgColor: "#4640DE1A" },
+    Sales: { color: "#FFB836", bgColor: "#EB85331A" },
+    Finance: { color: "#56CDAD", bgColor: "#56CDAD1A" },
+    "Human Resource": { color: "#FF6550", bgColor: "#FF65501A" },
+};
+
+function mapJobToFeaturedProps(job: Job): FeaturedJobProps {
+    const catStyle = CATEGORY_STYLES[job.category] || {
+        color: "#4640DE",
+        bgColor: "#4640DE1A",
+    };
+    return {
+        id: job.id,
+        title: job.title,
+        company: job.company,
+        companyLogo: job.company_logo || "/Images/companies/fallback.png",
+        location: job.location,
+        jobType: JOB_TYPE_LABELS[job.job_type],
+        description:
+            job.description.length > 100
+                ? job.description.slice(0, 100) + "…"
+                : job.description,
+        categories: [
+            { name: job.category, ...catStyle },
+            {
+                name: JOB_TYPE_LABELS[job.job_type],
+                color: "#56CDAD",
+                bgColor: "#56CDAD1A",
+            },
+        ],
+    };
+}
 
 export default function FeaturedJobs() {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [jobs, setJobs] = useState<FeaturedJobProps[]>(FeaturedJobsData);
+    const [apiIds, setApiIds] = useState<number[]>([]);
+
+    useEffect(() => {
+        const fetchJobs = async () => {
+            try {
+                const res = await jobApi.getAll({ limit: 8 });
+                if (res.data && res.data.length > 0) {
+                    setJobs(res.data.slice(0, 8).map(mapJobToFeaturedProps));
+                    setApiIds(res.data.slice(0, 8).map((j) => j.id));
+                }
+            } catch {
+                // Keep static data as fallback
+            }
+        };
+        fetchJobs();
+    }, []);
 
     const handlePrev = () => {
         setCurrentIndex((prev) =>
-            prev === 0 ? FeaturedJobsData.length - 1 : prev - 1,
+            prev === 0 ? jobs.length - 1 : prev - 1,
         );
     };
 
     const handleNext = () => {
         setCurrentIndex((prev) =>
-            prev === FeaturedJobsData.length - 1 ? 0 : prev + 1,
+            prev === jobs.length - 1 ? 0 : prev + 1,
         );
     };
 
@@ -32,15 +92,33 @@ export default function FeaturedJobs() {
             </div>
 
             <div className="hidden lg:grid mt-12 grid-cols-4 gap-8">
-                {FeaturedJobsData.slice(0, 8).map((job) => (
-                    <FeatureJobCard key={job.id} job={job} />
+                {jobs.slice(0, 8).map((job, idx) => (
+                    <Link
+                        key={job.id}
+                        href={
+                            apiIds[idx]
+                                ? `/job/${apiIds[idx]}`
+                                : "/find-jobs"
+                        }
+                        className="transition-transform hover:scale-[1.02]"
+                    >
+                        <FeatureJobCard job={job} />
+                    </Link>
                 ))}
             </div>
 
             {/* Mobile carousel - 1 card */}
             <div className="lg:hidden mt-6">
                 <div className="overflow-hidden">
-                    <FeatureJobCard job={FeaturedJobsData[currentIndex]} />
+                    <Link
+                        href={
+                            apiIds[currentIndex]
+                                ? `/job/${apiIds[currentIndex]}`
+                                : "/find-jobs"
+                        }
+                    >
+                        <FeatureJobCard job={jobs[currentIndex]} />
+                    </Link>
                 </div>
                 <div className="lg:hidden mt-5">
                     <ShowAllJobsButton />
@@ -68,7 +146,7 @@ export default function FeaturedJobs() {
                     </button>
 
                     <span className="text-[14px] text-[#7C8493]">
-                        {currentIndex + 1} / {FeaturedJobsData.length}
+                        {currentIndex + 1} / {jobs.length}
                     </span>
 
                     <button
