@@ -1,5 +1,6 @@
 import { categoryProps } from "@/content/landingPage/ExploreCategory";
 import { RightArrowIcon } from "@/svg/LandingPage/RightArrowIcon";
+import Link from "next/link";
 import React from "react";
 
 export default function ExploreCategoryCard({
@@ -8,7 +9,10 @@ export default function ExploreCategoryCard({
     category: categoryProps;
 }) {
     return (
-        <div className="border border-[#D6DDEB] px-4 py-5.5 lg:p-8 group cursor-pointer hover:bg-[#4640DE] hover:border-[#4640DE] transition-colors duration-200 ">
+        <Link
+            href={`/find-jobs?category=${encodeURIComponent(category.name)}`}
+            className="border border-[#D6DDEB] px-4 py-5.5 lg:p-8 group cursor-pointer hover:bg-[#4640DE] hover:border-[#4640DE] transition-colors duration-200"
+        >
             <div className="flex flex-row lg:flex-col w-full items-center lg:items-start gap-8">
                 <div className="text-[#4640DE] group-hover:text-white">
                     <div className="hidden md:block">
@@ -32,6 +36,6 @@ export default function ExploreCategoryCard({
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }

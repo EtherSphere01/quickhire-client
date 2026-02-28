@@ -6,12 +6,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { toast } from "sonner";
 import { jobApi } from "@/api/jobs";
 import { applicationApi } from "@/api/applications";
 import type { Job } from "@/api/types";
 import { JOB_TYPE_LABELS } from "@/api/types";
+import {
+    applySchema,
+    type ApplyValues,
+} from "@/lib/schemas/application.schema";
+import { getCompanyLogo } from "@/lib/company-logos";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -30,15 +34,6 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-
-const applySchema = z.object({
-    name: z.string().min(2, "Name is required"),
-    email: z.string().email("Enter a valid email"),
-    resume_link: z.string().url("Enter a valid URL for your resume"),
-    cover_note: z.string().min(10, "Cover note must be at least 10 characters"),
-});
-
-type ApplyValues = z.infer<typeof applySchema>;
 
 export default function JobDetailPage() {
     const { id } = useParams<{ id: string }>();
@@ -77,7 +72,9 @@ export default function JobDetailPage() {
             form.reset();
         } catch (err: unknown) {
             toast.error(
-                err instanceof Error ? err.message : "Failed to submit application"
+                err instanceof Error
+                    ? err.message
+                    : "Failed to submit application",
             );
         } finally {
             setApplying(false);
@@ -117,9 +114,14 @@ export default function JobDetailPage() {
             <div className="rounded-xl border border-[#D6DDEB] bg-white p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
                     <div className="flex items-start gap-5">
-                        {job.company_logo ? (
+                        {getCompanyLogo(job.company, job.company_logo) ? (
                             <Image
-                                src={job.company_logo}
+                                src={
+                                    getCompanyLogo(
+                                        job.company,
+                                        job.company_logo,
+                                    )!
+                                }
                                 alt={job.company}
                                 width={64}
                                 height={64}
@@ -166,9 +168,7 @@ export default function JobDetailPage() {
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-md">
                             <DialogHeader>
-                                <DialogTitle>
-                                    Apply for {job.title}
-                                </DialogTitle>
+                                <DialogTitle>Apply for {job.title}</DialogTitle>
                             </DialogHeader>
                             <Form {...form}>
                                 <form
@@ -213,7 +213,9 @@ export default function JobDetailPage() {
                                         name="resume_link"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Resume Link</FormLabel>
+                                                <FormLabel>
+                                                    Resume Link
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         placeholder="https://drive.google.com/..."
@@ -229,7 +231,9 @@ export default function JobDetailPage() {
                                         name="cover_note"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Cover Note</FormLabel>
+                                                <FormLabel>
+                                                    Cover Note
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Textarea
                                                         placeholder="Tell us why you're a great fit…"

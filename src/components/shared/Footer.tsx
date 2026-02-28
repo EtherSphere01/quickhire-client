@@ -23,7 +23,7 @@ export default function Footer() {
                     </p>
                 </div>
 
-                <div className="flex items-start justify-between w-full lg:w-98.75">
+                <div className="flex items-start justify-between w-full lg:w-70 2xl:w-98.75">
                     <div>
                         <span className="text-white text-[18px] font-semibold">
                             About

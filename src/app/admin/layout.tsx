@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import Logo from "@/svg/Logo";
+import { Logo } from "@/svg/Logo";
 import type { ReactNode } from "react";
 
 const navItems = [

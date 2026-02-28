@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
+import { loginSchema, type LoginValues } from "@/lib/schemas/auth.schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -18,14 +18,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import Logo from "@/svg/Logo";
-
-const loginSchema = z.object({
-    email: z.string().email("Enter a valid email"),
-    password: z.string().min(3, "Password must be at least 3 characters"),
-});
-
-type LoginValues = z.infer<typeof loginSchema>;
+import { Logo } from "@/svg/Logo";
 
 export default function LoginPage() {
     const { login } = useAuth();
@@ -44,9 +37,7 @@ export default function LoginPage() {
             toast.success("Logged in successfully!");
             router.push("/");
         } catch (err: unknown) {
-            toast.error(
-                err instanceof Error ? err.message : "Login failed"
-            );
+            toast.error(err instanceof Error ? err.message : "Login failed");
         } finally {
             setLoading(false);
         }
@@ -60,7 +51,7 @@ export default function LoginPage() {
             router.push("/admin");
         } catch (err: unknown) {
             toast.error(
-                err instanceof Error ? err.message : "Demo login failed"
+                err instanceof Error ? err.message : "Demo login failed",
             );
         } finally {
             setLoading(false);
@@ -74,7 +65,7 @@ export default function LoginPage() {
                     <Link href="/">
                         <Logo />
                     </Link>
-                    <h1 className="font-[family-name:var(--font-clash-display)] text-2xl font-semibold text-[#25324B]">
+                    <h1 className="font-(family-name:--font-clash-display) text-2xl font-semibold text-[#25324B]">
                         Welcome Back
                     </h1>
                     <p className="text-sm text-[#7C8493]">
@@ -142,9 +133,7 @@ export default function LoginPage() {
                         <span className="w-full border-t border-[#D6DDEB]" />
                     </div>
                     <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-white px-2 text-[#7C8493]">
-                            or
-                        </span>
+                        <span className="bg-white px-2 text-[#7C8493]">or</span>
                     </div>
                 </div>
 

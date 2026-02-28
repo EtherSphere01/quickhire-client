@@ -53,9 +53,7 @@ export default function AdminDashboard() {
     return (
         <div className="space-y-8">
             <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-[#25324B]">
-                    Dashboard
-                </h1>
+                <h1 className="text-2xl font-bold text-[#25324B]">Dashboard</h1>
                 <Link
                     href="/admin/jobs/create"
                     className="rounded-lg bg-[#4640DE] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#3530c9] transition-colors"
@@ -96,7 +94,9 @@ export default function AdminDashboard() {
                         <thead>
                             <tr className="border-b border-[#D6DDEB] text-[#7C8493]">
                                 <th className="pb-3 pr-4 font-medium">Title</th>
-                                <th className="pb-3 pr-4 font-medium">Company</th>
+                                <th className="pb-3 pr-4 font-medium">
+                                    Company
+                                </th>
                                 <th className="pb-3 pr-4 font-medium">Type</th>
                                 <th className="pb-3 font-medium">Date</th>
                             </tr>
@@ -120,7 +120,7 @@ export default function AdminDashboard() {
                                     </td>
                                     <td className="py-3 text-[#7C8493]">
                                         {new Date(
-                                            job.created_at
+                                            job.created_at,
                                         ).toLocaleDateString()}
                                     </td>
                                 </tr>

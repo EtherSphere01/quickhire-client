@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { toast } from "sonner";
 import { jobApi } from "@/api/jobs";
 import { CATEGORY_OPTIONS } from "@/api/types";
+import { jobSchema, type JobFormValues } from "@/lib/schemas/job.schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,24 +26,6 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-
-const jobSchema = z.object({
-    title: z.string().min(2, "Title is required"),
-    company: z.string().min(2, "Company name is required"),
-    location: z.string().min(2, "Location is required"),
-    category: z.string().min(1, "Category is required"),
-    job_type: z.enum([
-        "FULL_TIME",
-        "PART_TIME",
-        "CONTRACT",
-        "INTERNSHIP",
-        "FREELANCE",
-    ]),
-    salary: z.string().optional(),
-    description: z.string().min(10, "Description must be at least 10 characters"),
-});
-
-type JobFormValues = z.infer<typeof jobSchema>;
 
 export default function EditJobPage() {
     const { id } = useParams<{ id: string }>();
@@ -109,7 +91,7 @@ export default function EditJobPage() {
             router.push("/admin/jobs");
         } catch (err: unknown) {
             toast.error(
-                err instanceof Error ? err.message : "Failed to update job"
+                err instanceof Error ? err.message : "Failed to update job",
             );
         } finally {
             setLoading(false);
@@ -126,9 +108,7 @@ export default function EditJobPage() {
 
     return (
         <div className="mx-auto max-w-2xl">
-            <h1 className="mb-8 text-2xl font-bold text-[#25324B]">
-                Edit Job
-            </h1>
+            <h1 className="mb-8 text-2xl font-bold text-[#25324B]">Edit Job</h1>
 
             <div className="rounded-xl border border-[#D6DDEB] bg-white p-6 sm:p-8">
                 <Form {...form}>

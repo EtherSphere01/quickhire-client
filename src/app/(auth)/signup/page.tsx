@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
+import { signupSchema, type SignupValues } from "@/lib/schemas/auth.schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -18,21 +18,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import Logo from "@/svg/Logo";
-
-const signupSchema = z
-    .object({
-        name: z.string().min(2, "Name must be at least 2 characters"),
-        email: z.string().email("Enter a valid email"),
-        password: z.string().min(6, "Password must be at least 6 characters"),
-        confirmPassword: z.string(),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-        path: ["confirmPassword"],
-        message: "Passwords do not match",
-    });
-
-type SignupValues = z.infer<typeof signupSchema>;
+import { Logo } from "@/svg/Logo";
 
 export default function SignupPage() {
     const { register: registerUser } = useAuth();
@@ -57,7 +43,7 @@ export default function SignupPage() {
             router.push("/login");
         } catch (err: unknown) {
             toast.error(
-                err instanceof Error ? err.message : "Registration failed"
+                err instanceof Error ? err.message : "Registration failed",
             );
         } finally {
             setLoading(false);
@@ -71,7 +57,7 @@ export default function SignupPage() {
                     <Link href="/">
                         <Logo />
                     </Link>
-                    <h1 className="font-[family-name:var(--font-clash-display)] text-2xl font-semibold text-[#25324B]">
+                    <h1 className="font-(family-name:--font-clash-display) text-2xl font-semibold text-[#25324B]">
                         Create Account
                     </h1>
                     <p className="text-sm text-[#7C8493]">

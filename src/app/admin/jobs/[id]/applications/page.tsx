@@ -80,7 +80,7 @@ export default function ApplicationsPage() {
                                     </a>
                                     <span className="text-xs text-[#7C8493]">
                                         {new Date(
-                                            app.created_at
+                                            app.created_at,
                                         ).toLocaleDateString()}
                                     </span>
                                 </div>

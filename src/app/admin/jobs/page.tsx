@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { jobApi } from "@/api/jobs";
 import type { Job } from "@/api/types";
 import { JOB_TYPE_LABELS } from "@/api/types";
+import { getCompanyLogo } from "@/lib/company-logos";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -47,7 +48,7 @@ export default function AdminJobsPage() {
             fetchJobs();
         } catch (err: unknown) {
             toast.error(
-                err instanceof Error ? err.message : "Failed to delete job"
+                err instanceof Error ? err.message : "Failed to delete job",
             );
         } finally {
             setDeleting(false);
@@ -96,8 +97,12 @@ export default function AdminJobsPage() {
                                 <tr className="border-b border-[#D6DDEB] text-[#7C8493]">
                                     <th className="p-4 font-medium">Job</th>
                                     <th className="p-4 font-medium">Type</th>
-                                    <th className="p-4 font-medium">Category</th>
-                                    <th className="p-4 font-medium">Location</th>
+                                    <th className="p-4 font-medium">
+                                        Category
+                                    </th>
+                                    <th className="p-4 font-medium">
+                                        Location
+                                    </th>
                                     <th className="p-4 font-medium">Date</th>
                                     <th className="p-4 font-medium text-right">
                                         Actions
@@ -112,9 +117,17 @@ export default function AdminJobsPage() {
                                     >
                                         <td className="p-4">
                                             <div className="flex items-center gap-3">
-                                                {job.company_logo ? (
+                                                {getCompanyLogo(
+                                                    job.company,
+                                                    job.company_logo,
+                                                ) ? (
                                                     <Image
-                                                        src={job.company_logo}
+                                                        src={
+                                                            getCompanyLogo(
+                                                                job.company,
+                                                                job.company_logo,
+                                                            )!
+                                                        }
                                                         alt={job.company}
                                                         width={36}
                                                         height={36}
@@ -148,7 +161,7 @@ export default function AdminJobsPage() {
                                         </td>
                                         <td className="p-4 text-[#7C8493]">
                                             {new Date(
-                                                job.created_at
+                                                job.created_at,
                                             ).toLocaleDateString()}
                                         </td>
                                         <td className="p-4">
@@ -184,10 +197,7 @@ export default function AdminJobsPage() {
             )}
 
             {/* Delete Confirmation */}
-            <Dialog
-                open={!!deleteId}
-                onOpenChange={() => setDeleteId(null)}
-            >
+            <Dialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
                 <DialogContent className="sm:max-w-sm">
                     <DialogHeader>
                         <DialogTitle>Delete Job</DialogTitle>

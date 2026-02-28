@@ -2,7 +2,7 @@ import { API_BASE, type ApiResponse } from "./types";
 
 async function request<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
 ): Promise<ApiResponse<T>> {
     const res = await fetch(`${API_BASE}${endpoint}`, {
         credentials: "include",
@@ -31,20 +31,14 @@ export const api = {
     post: <T>(endpoint: string, body?: unknown, init?: RequestInit) =>
         request<T>(endpoint, {
             method: "POST",
-            body:
-                body instanceof FormData
-                    ? body
-                    : JSON.stringify(body),
+            body: body instanceof FormData ? body : JSON.stringify(body),
             ...init,
         }),
 
     patch: <T>(endpoint: string, body?: unknown, init?: RequestInit) =>
         request<T>(endpoint, {
             method: "PATCH",
-            body:
-                body instanceof FormData
-                    ? body
-                    : JSON.stringify(body),
+            body: body instanceof FormData ? body : JSON.stringify(body),
             ...init,
         }),
 

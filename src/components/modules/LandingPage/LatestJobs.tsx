@@ -6,6 +6,7 @@ import type { Job } from "@/api/types";
 import { JOB_TYPE_LABELS } from "@/api/types";
 import { LatestJobsData } from "@/content/landingPage/LatestJobs";
 import type { LatestJobProps } from "@/content/landingPage/LatestJobs";
+import { getCompanyLogo } from "@/lib/company-logos";
 import LatestJobCard from "./LatestJobCard";
 import ShowAllJobsButton from "./ShowAllJobsButton";
 import Link from "next/link";
@@ -15,7 +16,9 @@ function mapJobToLatestProps(job: Job): LatestJobProps {
         id: job.id,
         title: job.title,
         company: job.company,
-        companyLogo: job.company_logo || "/Images/companies/fallback.png",
+        companyLogo:
+            getCompanyLogo(job.company, job.company_logo) ||
+            "/Images/companies/Nomad.svg",
         location: job.location,
         tags: [
             {
@@ -54,7 +57,7 @@ export default function LatestJobs() {
                     const sorted = [...res.data].sort(
                         (a, b) =>
                             new Date(b.created_at).getTime() -
-                            new Date(a.created_at).getTime()
+                            new Date(a.created_at).getTime(),
                     );
                     setJobs(sorted.slice(0, 8).map(mapJobToLatestProps));
                     setApiIds(sorted.slice(0, 8).map((j) => j.id));
@@ -82,9 +85,7 @@ export default function LatestJobs() {
                     <Link
                         key={job.id}
                         href={
-                            apiIds[idx]
-                                ? `/job/${apiIds[idx]}`
-                                : "/find-jobs"
+                            apiIds[idx] ? `/job/${apiIds[idx]}` : "/find-jobs"
                         }
                         className="transition-transform hover:scale-[1.01]"
                     >
@@ -98,9 +99,7 @@ export default function LatestJobs() {
                     <Link
                         key={job.id}
                         href={
-                            apiIds[idx]
-                                ? `/job/${apiIds[idx]}`
-                                : "/find-jobs"
+                            apiIds[idx] ? `/job/${apiIds[idx]}` : "/find-jobs"
                         }
                     >
                         <LatestJobCard job={job} />

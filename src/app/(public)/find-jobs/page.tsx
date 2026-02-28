@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { Suspense, useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { jobApi } from "@/api/jobs";
 import type { Job } from "@/api/types";
 import { JOB_TYPE_LABELS, CATEGORY_OPTIONS } from "@/api/types";
+import { getCompanyLogo } from "@/lib/company-logos";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +20,7 @@ import {
 
 const ITEMS_PER_PAGE = 9;
 
-export default function FindJobsPage() {
+function FindJobsContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
 
@@ -27,10 +28,10 @@ export default function FindJobsPage() {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState(searchParams.get("search") || "");
     const [location, setLocation] = useState(
-        searchParams.get("location") || ""
+        searchParams.get("location") || "",
     );
     const [category, setCategory] = useState(
-        searchParams.get("category") || ""
+        searchParams.get("category") || "",
     );
     const [page, setPage] = useState(1);
 
@@ -73,7 +74,7 @@ export default function FindJobsPage() {
     const totalPages = Math.ceil(jobs.length / ITEMS_PER_PAGE);
     const paginatedJobs = jobs.slice(
         (page - 1) * ITEMS_PER_PAGE,
-        page * ITEMS_PER_PAGE
+        page * ITEMS_PER_PAGE,
     );
 
     return (
@@ -155,9 +156,17 @@ export default function FindJobsPage() {
                                 className="group rounded-xl border border-[#D6DDEB] bg-white p-6 transition-all hover:border-[#4640DE] hover:shadow-md"
                             >
                                 <div className="mb-4 flex items-center gap-4">
-                                    {job.company_logo ? (
+                                    {getCompanyLogo(
+                                        job.company,
+                                        job.company_logo,
+                                    ) ? (
                                         <Image
-                                            src={job.company_logo}
+                                            src={
+                                                getCompanyLogo(
+                                                    job.company,
+                                                    job.company_logo,
+                                                )!
+                                            }
                                             alt={job.company}
                                             width={48}
                                             height={48}
@@ -216,23 +225,24 @@ export default function FindJobsPage() {
                                 Previous
                             </Button>
 
-                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                                (p) => (
-                                    <Button
-                                        key={p}
-                                        variant={p === page ? "default" : "outline"}
-                                        size="sm"
-                                        onClick={() => setPage(p)}
-                                        className={
-                                            p === page
-                                                ? "bg-[#4640DE] hover:bg-[#3530c9] cursor-pointer"
-                                                : "cursor-pointer"
-                                        }
-                                    >
-                                        {p}
-                                    </Button>
-                                )
-                            )}
+                            {Array.from(
+                                { length: totalPages },
+                                (_, i) => i + 1,
+                            ).map((p) => (
+                                <Button
+                                    key={p}
+                                    variant={p === page ? "default" : "outline"}
+                                    size="sm"
+                                    onClick={() => setPage(p)}
+                                    className={
+                                        p === page
+                                            ? "bg-[#4640DE] hover:bg-[#3530c9] cursor-pointer"
+                                            : "cursor-pointer"
+                                    }
+                                >
+                                    {p}
+                                </Button>
+                            ))}
 
                             <Button
                                 variant="outline"
@@ -248,5 +258,19 @@ export default function FindJobsPage() {
                 </>
             )}
         </section>
+    );
+}
+
+export default function FindJobsPage() {
+    return (
+        <Suspense
+            fallback={
+                <div className="flex min-h-[60vh] items-center justify-center">
+                    <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#4640DE] border-t-transparent" />
+                </div>
+            }
+        >
+            <FindJobsContent />
+        </Suspense>
     );
 }

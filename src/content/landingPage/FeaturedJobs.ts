@@ -15,7 +15,7 @@ export const FeaturedJobsData: FeaturedJobProps[] = [
         id: 1,
         title: "Email Marketing",
         company: "Revolut",
-        companyLogo: "/images/companies/revolut.svg",
+        companyLogo: "/Images/companies/Revolut.svg",
         location: "Madrid, Spain",
         description:
             "Revolut is looking for Email Marketing to help team ma ...",
@@ -30,7 +30,7 @@ export const FeaturedJobsData: FeaturedJobProps[] = [
         id: 2,
         title: "Brand Designer",
         company: "Dropbox",
-        companyLogo: "/images/companies/dropbox.svg",
+        companyLogo: "/Images/companies/Dropbox.svg",
         location: "San Francisco, US",
         description:
             "Dropbox is looking for Brand Designer to help the team t ...",
@@ -45,7 +45,7 @@ export const FeaturedJobsData: FeaturedJobProps[] = [
         id: 3,
         title: "Email Marketing",
         company: "Pitch",
-        companyLogo: "/images/companies/pitch.svg",
+        companyLogo: "/Images/companies/Pitch.svg",
         location: "Berlin, Germany",
         description:
             "Pitch is looking for Customer Manager to join marketing t ...",
@@ -59,7 +59,7 @@ export const FeaturedJobsData: FeaturedJobProps[] = [
         id: 4,
         title: "Visual Designer",
         company: "Blinklist",
-        companyLogo: "/images/companies/blinklist.svg",
+        companyLogo: "/Images/companies/Blinklist.svg",
         location: "Granada, Spain",
         description:
             "Blinklist is looking for Visual Designer to help team del ...",
@@ -73,7 +73,7 @@ export const FeaturedJobsData: FeaturedJobProps[] = [
         id: 5,
         title: "Product Designer",
         company: "ClassPass",
-        companyLogo: "/images/companies/classpass.svg",
+        companyLogo: "/Images/companies/ClassPass.svg",
         location: "Manchester, UK",
         description: "ClassPass is looking for Product Designer to help us ...",
         jobType: "Full Time",
@@ -87,7 +87,7 @@ export const FeaturedJobsData: FeaturedJobProps[] = [
         id: 6,
         title: "Lead Designer",
         company: "Canva",
-        companyLogo: "/images/companies/canva.svg",
+        companyLogo: "/Images/companies/Canva.svg",
         location: "Ontario, Canada",
         description: "Canva is looking for Lead Designer to help develop n ...",
         jobType: "Full Time",
@@ -101,7 +101,7 @@ export const FeaturedJobsData: FeaturedJobProps[] = [
         id: 7,
         title: "Brand Strategist",
         company: "GoDaddy",
-        companyLogo: "/images/companies/godaddy.svg",
+        companyLogo: "/Images/companies/godaddy.svg",
         location: "Marseille, France",
         description:
             "GoDaddy is looking for Brand Strategist to join the team ...",
@@ -115,7 +115,7 @@ export const FeaturedJobsData: FeaturedJobProps[] = [
         id: 8,
         title: "Data Analyst",
         company: "Twitter",
-        companyLogo: "/images/companies/twitter.svg",
+        companyLogo: "/Images/companies/Twitter.svg",
         location: "San Diego, US",
         description:
             "Twitter is looking for Data Analyst to help team learn ...",

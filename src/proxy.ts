@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const userCookie = request.cookies.get("user")?.value;
 
@@ -25,10 +25,7 @@ export function middleware(request: NextRequest) {
     }
 
     // Redirect logged-in users away from auth pages
-    if (
-        isAuthenticated &&
-        (pathname === "/login" || pathname === "/signup")
-    ) {
+    if (isAuthenticated && (pathname === "/login" || pathname === "/signup")) {
         return NextResponse.redirect(new URL("/", request.url));
     }
 

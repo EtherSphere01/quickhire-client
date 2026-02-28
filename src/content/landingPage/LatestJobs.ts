@@ -12,7 +12,7 @@ export const LatestJobsData: LatestJobProps[] = [
         id: 1,
         title: "Social Media Assistant",
         company: "Nomad",
-        companyLogo: "/images/companies/nomad.svg",
+        companyLogo: "/Images/companies/Nomad.svg",
         location: "Paris, France",
         tags: [
             { name: "Full-Time", color: "#56CDAD", borderColor: "#56CDAD1A" },
@@ -24,7 +24,7 @@ export const LatestJobsData: LatestJobProps[] = [
         id: 2,
         title: "Brand Designer",
         company: "Dropbox",
-        companyLogo: "/images/companies/dropbox.svg",
+        companyLogo: "/Images/companies/Dropbox.svg",
         location: "San Fransisco, USA",
         tags: [
             { name: "Full-Time", color: "#56CDAD", borderColor: "#56CDAD1A" },
@@ -36,7 +36,7 @@ export const LatestJobsData: LatestJobProps[] = [
         id: 3,
         title: "Interactive Developer",
         company: "Terraform",
-        companyLogo: "/images/companies/terraform.svg",
+        companyLogo: "/Images/companies/Terraform.svg",
         location: "Hamburg, Germany",
         tags: [
             { name: "Full-Time", color: "#56CDAD", borderColor: "#56CDAD1A" },
@@ -48,7 +48,7 @@ export const LatestJobsData: LatestJobProps[] = [
         id: 4,
         title: "HR Manager",
         company: "Packer",
-        companyLogo: "/images/companies/packer.svg",
+        companyLogo: "/Images/companies/Packer.svg",
         location: "Lucern, Switzerland",
         tags: [
             { name: "Full-Time", color: "#56CDAD", borderColor: "#56CDAD1A" },
@@ -60,7 +60,7 @@ export const LatestJobsData: LatestJobProps[] = [
         id: 5,
         title: "Social Media Assistant",
         company: "Netlify",
-        companyLogo: "/images/companies/netlify.svg",
+        companyLogo: "/Images/companies/netlify-logo.svg",
         location: "Paris, France",
         tags: [
             { name: "Full-Time", color: "#56CDAD", borderColor: "#56CDAD1A" },
@@ -72,7 +72,7 @@ export const LatestJobsData: LatestJobProps[] = [
         id: 6,
         title: "Brand Designer",
         company: "Maze",
-        companyLogo: "/images/companies/maze.svg",
+        companyLogo: "/Images/companies/Maze.svg",
         location: "San Fransisco, USA",
         tags: [
             { name: "Full-Time", color: "#56CDAD", borderColor: "#56CDAD1A" },
@@ -84,7 +84,7 @@ export const LatestJobsData: LatestJobProps[] = [
         id: 7,
         title: "Interactive Developer",
         company: "Udacity",
-        companyLogo: "/images/companies/udacity.svg",
+        companyLogo: "/Images/companies/Udacity.svg",
         location: "Hamburg, Germany",
         tags: [
             { name: "Full-Time", color: "#56CDAD", borderColor: "#56CDAD1A" },
@@ -96,7 +96,7 @@ export const LatestJobsData: LatestJobProps[] = [
         id: 8,
         title: "HR Manager",
         company: "Webflow",
-        companyLogo: "/images/companies/webflow.svg",
+        companyLogo: "/Images/companies/webFlow.svg",
         location: "Lucern, Switzerland",
         tags: [
             { name: "Full-Time", color: "#56CDAD", borderColor: "#56CDAD1A" },

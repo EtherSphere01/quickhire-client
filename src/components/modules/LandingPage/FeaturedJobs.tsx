@@ -6,6 +6,7 @@ import type { Job } from "@/api/types";
 import { JOB_TYPE_LABELS } from "@/api/types";
 import type { FeaturedJobProps } from "@/content/landingPage/FeaturedJobs";
 import { FeaturedJobsData } from "@/content/landingPage/FeaturedJobs";
+import { getCompanyLogo } from "@/lib/company-logos";
 import FeatureJobCard from "./FeatureJobCard";
 import ShowAllJobsButton from "./ShowAllJobsButton";
 import Link from "next/link";
@@ -21,7 +22,18 @@ const CATEGORY_STYLES: Record<string, { color: string; bgColor: string }> = {
     "Human Resource": { color: "#FF6550", bgColor: "#FF65501A" },
 };
 
-function mapJobToFeaturedProps(job: Job): FeaturedJobProps {
+const BORDER_COLORS = [
+    "#4640DE",
+    "#56CDAD",
+    "#26A4FF",
+    "#FFB836",
+    "#FF6550",
+    "#4640DE",
+    "#56CDAD",
+    "#26A4FF",
+];
+
+function mapJobToFeaturedProps(job: Job, index: number): FeaturedJobProps {
     const catStyle = CATEGORY_STYLES[job.category] || {
         color: "#4640DE",
         bgColor: "#4640DE1A",
@@ -30,7 +42,9 @@ function mapJobToFeaturedProps(job: Job): FeaturedJobProps {
         id: job.id,
         title: job.title,
         company: job.company,
-        companyLogo: job.company_logo || "/Images/companies/fallback.png",
+        companyLogo:
+            getCompanyLogo(job.company, job.company_logo) ||
+            "/Images/companies/Revolut.svg",
         location: job.location,
         jobType: JOB_TYPE_LABELS[job.job_type],
         description:
@@ -45,6 +59,7 @@ function mapJobToFeaturedProps(job: Job): FeaturedJobProps {
                 bgColor: "#56CDAD1A",
             },
         ],
+        borderColor: BORDER_COLORS[index % BORDER_COLORS.length],
     };
 }
 
@@ -58,7 +73,11 @@ export default function FeaturedJobs() {
             try {
                 const res = await jobApi.getAll({ limit: 8 });
                 if (res.data && res.data.length > 0) {
-                    setJobs(res.data.slice(0, 8).map(mapJobToFeaturedProps));
+                    setJobs(
+                        res.data
+                            .slice(0, 8)
+                            .map((j, i) => mapJobToFeaturedProps(j, i)),
+                    );
                     setApiIds(res.data.slice(0, 8).map((j) => j.id));
                 }
             } catch {
@@ -69,15 +88,11 @@ export default function FeaturedJobs() {
     }, []);
 
     const handlePrev = () => {
-        setCurrentIndex((prev) =>
-            prev === 0 ? jobs.length - 1 : prev - 1,
-        );
+        setCurrentIndex((prev) => (prev === 0 ? jobs.length - 1 : prev - 1));
     };
 
     const handleNext = () => {
-        setCurrentIndex((prev) =>
-            prev === jobs.length - 1 ? 0 : prev + 1,
-        );
+        setCurrentIndex((prev) => (prev === jobs.length - 1 ? 0 : prev + 1));
     };
 
     return (
@@ -96,9 +111,7 @@ export default function FeaturedJobs() {
                     <Link
                         key={job.id}
                         href={
-                            apiIds[idx]
-                                ? `/job/${apiIds[idx]}`
-                                : "/find-jobs"
+                            apiIds[idx] ? `/job/${apiIds[idx]}` : "/find-jobs"
                         }
                         className="transition-transform hover:scale-[1.02]"
                     >
