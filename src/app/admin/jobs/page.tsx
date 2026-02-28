@@ -28,6 +28,7 @@ export default function AdminJobsPage() {
         try {
             const res = await jobApi.getAll();
             setJobs(res.data || []);
+            // console.log("Fetched jobs:", res.data);
         } catch {
             setJobs([]);
         } finally {
