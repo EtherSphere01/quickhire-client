@@ -24,13 +24,13 @@ export default function layout({ children }: { children: React.ReactNode }) {
                 </div>
 
                 {/* Pattern - Mobile */}
-                <div className="lg:hidden absolute top-75 -right-8 pointer-events-none z-0">
+                <div className="lg:hidden absolute top-70 -right-30 pointer-events-none z-0">
                     <Image
                         src="/images/pattern.svg"
                         alt="Pattern"
                         width={400}
                         height={500}
-                        className="w-70 h-auto"
+                        className="w-120 h-120"
                     />
                 </div>
             </div>

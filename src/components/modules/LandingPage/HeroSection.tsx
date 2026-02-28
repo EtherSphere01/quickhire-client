@@ -26,7 +26,9 @@ export default function HeroSection() {
                         career heights and passionate about startups.
                     </p>
 
-                    <SearchBox />
+                    <div className="lg:absolute z-50">
+                        <SearchBox />
+                    </div>
                 </div>
 
                 <div className="hidden lg:block z-30">
