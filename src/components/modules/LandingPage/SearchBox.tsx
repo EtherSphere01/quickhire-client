@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { DownArrowIcon } from "@/svg/LandingPage/DownArrowIcon";
 import { LocationIcon } from "@/svg/LandingPage/locationIcon";
 import { SearchIcon } from "@/svg/LandingPage/SearchIcon";
 
@@ -25,7 +24,7 @@ export default function SearchBox() {
     };
 
     return (
-        <div className="relative z-10 mt-6 lg:mt-7 lg:min-w-213">
+        <div className="relative z-10 mt-6 lg:mt-7 lg:min-w-[min(852px,calc(100vw-280px))]">
             <div className="bg-white shadow-lg p-4  flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-0">
                 <div className="flex items-center gap-3 flex-1  lg:pr-5">
                     <SearchIcon />

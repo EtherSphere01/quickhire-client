@@ -15,7 +15,7 @@ export default function Home() {
 
                 <div className="hidden lg:block absolute top-0 right-0 h-full w-[60%] pointer-events-none z-0">
                     <Image
-                        src="/images/pattern.svg"
+                        src="/Images/Pattern.svg"
                         alt="Pattern"
                         width={1060}
                         height={794}
@@ -25,7 +25,7 @@ export default function Home() {
 
                 <div className="lg:hidden absolute top-70 -right-30 h-full pointer-events-none z-0">
                     <Image
-                        src="/images/pattern.svg"
+                        src="/Images/Pattern.svg"
                         alt="Pattern"
                         width={400}
                         height={500}
@@ -50,7 +50,7 @@ export default function Home() {
                 <div className="h-50 w-100 bg-white rotate-[-30deg] absolute -left-30 -top-48 md:-top-45 lg:-top-50 "></div>
 
                 <Image
-                    src="/images/pattern.svg"
+                    src="/Images/Pattern.svg"
                     width={1260}
                     height={994}
                     className="hidden lg:block absolute top-0 -right-10 h-full w-[80%] object-contain object-top-right pointer-events-none z-0"

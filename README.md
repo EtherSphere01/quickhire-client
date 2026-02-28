@@ -5,7 +5,12 @@ A modern job board frontend built with **Next.js 16**, **React 19**, **Tailwind 
 ## Live Demo
 
 - **Frontend:** [https://quickhire-client.vercel.app](https://quickhire-client.vercel.app)
-- **Backend:** [https://quickhire-server.vercel.app](https://quickhire-server.vercel.app)
+- **Backend:** [https://quickhire-server-three.vercel.app](https://quickhire-server-three.vercel.app)
+
+## GitHub Repositories
+
+- **Client:** [https://github.com/EtherSphere01/quickhire-client](https://github.com/EtherSphere01/quickhire-client)
+- **Server:** [https://github.com/EtherSphere01/quickhire-server](https://github.com/EtherSphere01/quickhire-server)
 
 ## Tech Stack
 
@@ -40,7 +45,7 @@ A modern job board frontend built with **Next.js 16**, **React 19**, **Tailwind 
 ### 1. Clone the repository
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/EtherSphere01/quickhire-client.git
 cd quickhire-client
 ```
 

@@ -8,7 +8,7 @@ export default function PostingJobsBanner() {
         <div className="container mx-auto px-4">
             <div className="relative bg-[#4640DE] text-white overflow-hidden">
                 <div className="px-4 lg:px-17.5 pt-22 lg:py-23.25 flex flex-col items-center lg:items-start">
-                    <h1 className="text-[32px] md:text-[48px] leading-[110%] font-semibold w-91 text-center lg:text-start">
+                    <h1 className="text-[32px] md:text-[48px] leading-[110%] font-semibold max-w-91 text-center lg:text-start">
                         Start posting jobs today
                     </h1>
                     <p className="text-center lg:text-start mt-4 lg:mt-6 text-[16px]">
@@ -26,7 +26,7 @@ export default function PostingJobsBanner() {
 
                 <div className="relative flex justify-center lg:absolute lg:right-10 lg:bottom-0 lg:translate-y-1/6 lg:w-[45%] mt-6.5 lg:mt-0  pb-23.75 lg:pb-0">
                     <Image
-                        src="/images/DashboardCompany.svg"
+                        src="/Images/DashboardCompany.svg"
                         alt="Posting Jobs Banner"
                         width={500}
                         height={500}

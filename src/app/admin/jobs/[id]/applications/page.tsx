@@ -35,8 +35,8 @@ export default function ApplicationsPage() {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-[#25324B]">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <h1 className="text-xl sm:text-2xl font-bold text-[#25324B]">
                     Applications
                 </h1>
                 <Link

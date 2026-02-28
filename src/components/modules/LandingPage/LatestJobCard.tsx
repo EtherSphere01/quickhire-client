@@ -11,7 +11,7 @@ export default function LatestJobCard({ job }: { job: LatestJobProps }) {
                     alt={job.company}
                     width={48}
                     height={48}
-                    className="h-12 w-12 object-contain"
+                    className="h-12 w-12 object-contain shrink-0"
                 />
             ) : (
                 <div className="h-12 w-12 flex items-center justify-center bg-[#F8F8FD] text-xl font-bold text-[#4640DE] shrink-0">

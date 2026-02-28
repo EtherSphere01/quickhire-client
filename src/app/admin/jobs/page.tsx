@@ -15,20 +15,28 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { PlusIcon } from "lucide-react";
+import { PlusIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+
+const JOBS_PER_PAGE = 10;
 
 export default function AdminJobsPage() {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState(true);
     const [deleteId, setDeleteId] = useState<number | null>(null);
     const [deleting, setDeleting] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const totalPages = Math.ceil(jobs.length / JOBS_PER_PAGE);
+    const paginatedJobs = jobs.slice(
+        (currentPage - 1) * JOBS_PER_PAGE,
+        currentPage * JOBS_PER_PAGE,
+    );
 
     const fetchJobs = useCallback(async () => {
         setLoading(true);
         try {
             const res = await jobApi.getAll();
             setJobs(res.data || []);
-            // console.log("Fetched jobs:", res.data);
         } catch {
             setJobs([]);
         } finally {
@@ -48,6 +56,9 @@ export default function AdminJobsPage() {
             toast.success("Job deleted successfully");
             setDeleteId(null);
             fetchJobs();
+            if (paginatedJobs.length === 1 && currentPage > 1) {
+                setCurrentPage(currentPage - 1);
+            }
         } catch (err: unknown) {
             toast.error(
                 err instanceof Error ? err.message : "Failed to delete job",
@@ -67,13 +78,13 @@ export default function AdminJobsPage() {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-[#25324B]">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <h1 className="text-xl sm:text-2xl font-bold text-[#25324B]">
                     Manage Jobs
                 </h1>
                 <Link
                     href="/admin/jobs/create"
-                    className="bg-[#4640DE] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#3530c9] transition-colors flex items-center"
+                    className="bg-[#4640DE] px-4 py-2 sm:px-5 sm:py-2.5 text-sm font-medium text-white hover:bg-[#3530c9] transition-colors flex items-center justify-center w-full sm:w-auto"
                 >
                     <PlusIcon className="mr-1 h-4 w-4" /> Post New Job
                 </Link>
@@ -92,115 +103,258 @@ export default function AdminJobsPage() {
                     </p>
                 </div>
             ) : (
-                <div className="border border-[#D6DDEB] bg-white">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left text-sm">
-                            <thead>
-                                <tr className="border-b border-[#D6DDEB] text-[#7C8493]">
-                                    <th className="p-4 font-medium">Job</th>
-                                    <th className="p-4 font-medium">Type</th>
-                                    <th className="p-4 font-medium">
-                                        Category
-                                    </th>
-                                    <th className="p-4 font-medium">
-                                        Location
-                                    </th>
-                                    <th className="p-4 font-medium">Date</th>
-                                    <th className="p-4 font-medium text-right">
-                                        Actions
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {jobs.map((job) => (
-                                    <tr
-                                        key={job.id}
-                                        className="border-b border-[#D6DDEB] last:border-0 hover:bg-[#F8F8FD] transition-colors"
-                                    >
-                                        <td className="p-4">
-                                            <div className="flex items-center gap-3">
-                                                {getCompanyLogo(
+                <>
+                    <div className="hidden md:block border border-[#D6DDEB] bg-white">
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left text-sm">
+                                <thead>
+                                    <tr className="border-b border-[#D6DDEB] text-[#7C8493]">
+                                        <th className="p-4 font-medium">Job</th>
+                                        <th className="p-4 font-medium">
+                                            Type
+                                        </th>
+                                        <th className="p-4 font-medium">
+                                            Category
+                                        </th>
+                                        <th className="p-4 font-medium">
+                                            Location
+                                        </th>
+                                        <th className="p-4 font-medium">
+                                            Date
+                                        </th>
+                                        <th className="p-4 font-medium text-right">
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {paginatedJobs.map((job) => (
+                                        <tr
+                                            key={job.id}
+                                            className="border-b border-[#D6DDEB] last:border-0 hover:bg-[#F8F8FD] transition-colors"
+                                        >
+                                            <td className="p-4">
+                                                <div className="flex items-center gap-3">
+                                                    {getCompanyLogo(
+                                                        job.company,
+                                                        job.company_logo,
+                                                    ) ? (
+                                                        <Image
+                                                            src={
+                                                                getCompanyLogo(
+                                                                    job.company,
+                                                                    job.company_logo,
+                                                                )!
+                                                            }
+                                                            alt={job.company}
+                                                            width={36}
+                                                            height={36}
+                                                            className="object-contain"
+                                                        />
+                                                    ) : (
+                                                        <div className="flex h-9 w-9 items-center justify-center bg-[#F8F8FD] text-sm font-bold text-[#4640DE]">
+                                                            {job.company
+                                                                .charAt(0)
+                                                                .toUpperCase()}
+                                                        </div>
+                                                    )}
+                                                    <div>
+                                                        <p className="font-medium text-[#25324B]">
+                                                            {job.title}
+                                                        </p>
+                                                        <p className="text-xs text-[#7C8493]">
+                                                            {job.company}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="p-4">
+                                                <span className="rounded-full bg-[#56CDAD]/10 px-2.5 py-1 text-xs font-semibold text-[#56CDAD]">
+                                                    {
+                                                        JOB_TYPE_LABELS[
+                                                            job.job_type
+                                                        ]
+                                                    }
+                                                </span>
+                                            </td>
+                                            <td className="p-4 text-[#515B6F]">
+                                                {job.category}
+                                            </td>
+                                            <td className="p-4 text-[#515B6F]">
+                                                {job.location}
+                                            </td>
+                                            <td className="p-4 text-[#7C8493]">
+                                                {new Date(
+                                                    job.created_at,
+                                                ).toLocaleDateString()}
+                                            </td>
+                                            <td className="p-4">
+                                                <div className="flex items-center justify-end gap-2">
+                                                    <Link
+                                                        href={`/admin/jobs/${job.id}/edit`}
+                                                        className="border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-[#4640DE] hover:bg-[#4640DE]/5 transition-colors"
+                                                    >
+                                                        Edit
+                                                    </Link>
+                                                    <Link
+                                                        href={`/admin/jobs/${job.id}/applications`}
+                                                        className="border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-[#26A4FF] hover:bg-[#26A4FF]/5 transition-colors"
+                                                    >
+                                                        Applications
+                                                    </Link>
+                                                    <button
+                                                        onClick={() =>
+                                                            setDeleteId(job.id)
+                                                        }
+                                                        className="border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div className="md:hidden space-y-3">
+                        {paginatedJobs.map((job) => (
+                            <div
+                                key={job.id}
+                                className="border border-[#D6DDEB] bg-white p-4"
+                            >
+                                <div className="flex items-start gap-3">
+                                    {getCompanyLogo(
+                                        job.company,
+                                        job.company_logo,
+                                    ) ? (
+                                        <Image
+                                            src={
+                                                getCompanyLogo(
                                                     job.company,
                                                     job.company_logo,
-                                                ) ? (
-                                                    <Image
-                                                        src={
-                                                            getCompanyLogo(
-                                                                job.company,
-                                                                job.company_logo,
-                                                            )!
-                                                        }
-                                                        alt={job.company}
-                                                        width={36}
-                                                        height={36}
-                                                        className="object-contain"
-                                                    />
-                                                ) : (
-                                                    <div className="flex h-9 w-9 items-center justify-center bg-[#F8F8FD] text-sm font-bold text-[#4640DE]">
-                                                        {job.company
-                                                            .charAt(0)
-                                                            .toUpperCase()}
-                                                    </div>
-                                                )}
-                                                <div>
-                                                    <p className="font-medium text-[#25324B]">
-                                                        {job.title}
-                                                    </p>
-                                                    <p className="text-xs text-[#7C8493]">
-                                                        {job.company}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="p-4">
-                                            <span className="rounded-full bg-[#56CDAD]/10 px-2.5 py-1 text-xs font-semibold text-[#56CDAD]">
-                                                {JOB_TYPE_LABELS[job.job_type]}
-                                            </span>
-                                        </td>
-                                        <td className="p-4 text-[#515B6F]">
-                                            {job.category}
-                                        </td>
-                                        <td className="p-4 text-[#515B6F]">
-                                            {job.location}
-                                        </td>
-                                        <td className="p-4 text-[#7C8493]">
-                                            {new Date(
-                                                job.created_at,
-                                            ).toLocaleDateString()}
-                                        </td>
-                                        <td className="p-4">
-                                            <div className="flex items-center justify-end gap-2">
-                                                <Link
-                                                    href={`/admin/jobs/${job.id}/edit`}
-                                                    className="border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-[#4640DE] hover:bg-[#4640DE]/5 transition-colors"
-                                                >
-                                                    Edit
-                                                </Link>
-                                                <Link
-                                                    href={`/admin/jobs/${job.id}/applications`}
-                                                    className="border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-[#26A4FF] hover:bg-[#26A4FF]/5 transition-colors"
-                                                >
-                                                    Applications
-                                                </Link>
-                                                <button
-                                                    onClick={() =>
-                                                        setDeleteId(job.id)
-                                                    }
-                                                    className="border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
-                                                >
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                                )!
+                                            }
+                                            alt={job.company}
+                                            width={40}
+                                            height={40}
+                                            className="object-contain shrink-0"
+                                        />
+                                    ) : (
+                                        <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#F8F8FD] text-sm font-bold text-[#4640DE]">
+                                            {job.company
+                                                .charAt(0)
+                                                .toUpperCase()}
+                                        </div>
+                                    )}
+                                    <div className="flex-1 min-w-0">
+                                        <p className="font-medium text-[#25324B] truncate">
+                                            {job.title}
+                                        </p>
+                                        <p className="text-xs text-[#7C8493]">
+                                            {job.company}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+                                    <span className="rounded-full bg-[#56CDAD]/10 px-2.5 py-1 font-semibold text-[#56CDAD]">
+                                        {JOB_TYPE_LABELS[job.job_type]}
+                                    </span>
+                                    <span className="text-[#515B6F]">
+                                        {job.category}
+                                    </span>
+                                    <span className="text-[#7C8493]">
+                                        {job.location}
+                                    </span>
+                                </div>
+                                <div className="mt-3 flex items-center justify-between">
+                                    <span className="text-xs text-[#7C8493]">
+                                        {new Date(
+                                            job.created_at,
+                                        ).toLocaleDateString()}
+                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        <Link
+                                            href={`/admin/jobs/${job.id}/edit`}
+                                            className="border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-[#4640DE] hover:bg-[#4640DE]/5 transition-colors"
+                                        >
+                                            Edit
+                                        </Link>
+                                        <Link
+                                            href={`/admin/jobs/${job.id}/applications`}
+                                            className="border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-[#26A4FF] hover:bg-[#26A4FF]/5 transition-colors"
+                                        >
+                                            Apps
+                                        </Link>
+                                        <button
+                                            onClick={() => setDeleteId(job.id)}
+                                            className="border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                </div>
+
+                    {totalPages > 1 && (
+                        <div className="flex items-center justify-between border border-[#D6DDEB] bg-white px-4 py-3">
+                            <p className="text-sm text-[#7C8493]">
+                                Showing {(currentPage - 1) * JOBS_PER_PAGE + 1}–
+                                {Math.min(
+                                    currentPage * JOBS_PER_PAGE,
+                                    jobs.length,
+                                )}{" "}
+                                of {jobs.length} jobs
+                            </p>
+                            <div className="flex items-center gap-1">
+                                <button
+                                    onClick={() =>
+                                        setCurrentPage((p) =>
+                                            Math.max(1, p - 1),
+                                        )
+                                    }
+                                    disabled={currentPage === 1}
+                                    className="p-2 text-[#7C8493] hover:text-[#25324B] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                                >
+                                    <ChevronLeftIcon className="h-4 w-4" />
+                                </button>
+                                {Array.from(
+                                    { length: totalPages },
+                                    (_, i) => i + 1,
+                                ).map((page) => (
+                                    <button
+                                        key={page}
+                                        onClick={() => setCurrentPage(page)}
+                                        className={`h-8 w-8 text-sm font-medium transition-colors cursor-pointer ${
+                                            currentPage === page
+                                                ? "bg-[#4640DE] text-white"
+                                                : "text-[#7C8493] hover:bg-[#F8F8FD]"
+                                        }`}
+                                    >
+                                        {page}
+                                    </button>
+                                ))}
+                                <button
+                                    onClick={() =>
+                                        setCurrentPage((p) =>
+                                            Math.min(totalPages, p + 1),
+                                        )
+                                    }
+                                    disabled={currentPage === totalPages}
+                                    className="p-2 text-[#7C8493] hover:text-[#25324B] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                                >
+                                    <ChevronRightIcon className="h-4 w-4" />
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </>
             )}
 
-            {/* Delete Confirmation */}
             <Dialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
                 <DialogContent className="sm:max-w-sm">
                     <DialogHeader>
