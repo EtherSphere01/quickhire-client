@@ -1,18 +1,23 @@
 import { FeaturedJobProps } from "@/content/landingPage/FeaturedJobs";
 import Image from "next/image";
-import React from "react";
 
 export default function FeatureJobCard({ job }: { job: FeaturedJobProps }) {
     return (
-        <div className="border border-[#D6DDEB] p-6 flex flex-col gap-4">
+        <div className="border border-[#D6DDEB] p-6 flex flex-col gap-4 h-full">
             <div className="flex items-center justify-between">
-                <Image
-                    src={job.companyLogo}
-                    alt={job.company}
-                    width={48}
-                    height={48}
-                    className="h-12 w-12 object-contain"
-                />
+                {job.companyLogo ? (
+                    <Image
+                        src={job.companyLogo}
+                        alt={job.company}
+                        width={48}
+                        height={48}
+                        className="h-12 w-12 object-contain"
+                    />
+                ) : (
+                    <div className="h-12 w-12 flex items-center justify-center bg-[#F8F8FD] text-xl font-bold text-[#4640DE]">
+                        {job.company.charAt(0).toUpperCase()}
+                    </div>
+                )}
                 <span className="border border-[#4640DE] text-[#4640DE] text-[16px] font-normal px-3 py-1.5">
                     {job.jobType}
                 </span>
@@ -27,7 +32,7 @@ export default function FeatureJobCard({ job }: { job: FeaturedJobProps }) {
                 </p>
             </div>
 
-            <p className="text-[16px] text-[#7C8493] leading-[160%]">
+            <p className="text-[16px] text-[#7C8493] leading-[160%] flex-1">
                 {job.description}
             </p>
 

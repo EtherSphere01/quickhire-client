@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { jobApi } from "@/api/jobs";
 import type { Job } from "@/api/types";
 import Link from "next/link";
+import { PlusIcon } from "lucide-react";
 
 export default function AdminDashboard() {
     const [jobs, setJobs] = useState<Job[]>([]);
@@ -56,18 +57,18 @@ export default function AdminDashboard() {
                 <h1 className="text-2xl font-bold text-[#25324B]">Dashboard</h1>
                 <Link
                     href="/admin/jobs/create"
-                    className="rounded-lg bg-[#4640DE] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#3530c9] transition-colors"
+                    className="bg-[#4640DE] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#3530c9] transition-colors flex items-center"
                 >
-                    + Post New Job
+                    <PlusIcon className="mr-1 h-4 w-4" />
+                    Post New Job
                 </Link>
             </div>
 
-            {/* Stats */}
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {stats.map((stat) => (
                     <div
                         key={stat.label}
-                        className="rounded-xl border border-[#D6DDEB] bg-white p-6"
+                        className="border border-[#D6DDEB] bg-white p-6"
                     >
                         <div className="flex items-center gap-3">
                             <div
@@ -84,8 +85,7 @@ export default function AdminDashboard() {
                 ))}
             </div>
 
-            {/* Recent Jobs */}
-            <div className="rounded-xl border border-[#D6DDEB] bg-white p-6">
+            <div className="border border-[#D6DDEB] bg-white p-6">
                 <h2 className="mb-4 text-lg font-semibold text-[#25324B]">
                     Recent Jobs
                 </h2>

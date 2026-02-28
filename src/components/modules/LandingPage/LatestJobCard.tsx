@@ -5,13 +5,19 @@ import React from "react";
 export default function LatestJobCard({ job }: { job: LatestJobProps }) {
     return (
         <div className="flex items-start gap-4 p-4 lg:py-6 lg:px-10 bg-white">
-            <Image
-                src={job.companyLogo}
-                alt={job.company}
-                width={48}
-                height={48}
-                className="h-12 w-12 object-contain"
-            />
+            {job.companyLogo ? (
+                <Image
+                    src={job.companyLogo}
+                    alt={job.company}
+                    width={48}
+                    height={48}
+                    className="h-12 w-12 object-contain"
+                />
+            ) : (
+                <div className="h-12 w-12 flex items-center justify-center bg-[#F8F8FD] text-xl font-bold text-[#4640DE] shrink-0">
+                    {job.company.charAt(0).toUpperCase()}
+                </div>
+            )}
             <div>
                 <h3 className="text-[20px] font-semibold text-[#25324B]">
                     {job.title}

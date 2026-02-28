@@ -65,6 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         } finally {
             setUser(null);
             Cookies.remove("user");
+            window.location.href = "/";
         }
     };
 

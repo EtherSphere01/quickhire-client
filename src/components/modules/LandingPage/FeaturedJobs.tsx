@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { jobApi } from "@/api/jobs";
 import type { Job } from "@/api/types";
 import { JOB_TYPE_LABELS } from "@/api/types";
 import type { FeaturedJobProps } from "@/content/landingPage/FeaturedJobs";
 import { FeaturedJobsData } from "@/content/landingPage/FeaturedJobs";
 import { getCompanyLogo } from "@/lib/company-logos";
+import { getLandingJobs } from "@/lib/job-cache";
 import FeatureJobCard from "./FeatureJobCard";
 import ShowAllJobsButton from "./ShowAllJobsButton";
 import Link from "next/link";
@@ -42,9 +42,7 @@ function mapJobToFeaturedProps(job: Job, index: number): FeaturedJobProps {
         id: job.id,
         title: job.title,
         company: job.company,
-        companyLogo:
-            getCompanyLogo(job.company, job.company_logo) ||
-            "/Images/companies/Revolut.svg",
+        companyLogo: getCompanyLogo(job.company, job.company_logo),
         location: job.location,
         jobType: JOB_TYPE_LABELS[job.job_type],
         description:
@@ -67,21 +65,23 @@ export default function FeaturedJobs() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [jobs, setJobs] = useState<FeaturedJobProps[]>(FeaturedJobsData);
     const [apiIds, setApiIds] = useState<number[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const res = await jobApi.getAll({ limit: 8 });
-                if (res.data && res.data.length > 0) {
+                const data = await getLandingJobs();
+                if (data.length > 0) {
                     setJobs(
-                        res.data
+                        data
                             .slice(0, 8)
                             .map((j, i) => mapJobToFeaturedProps(j, i)),
                     );
-                    setApiIds(res.data.slice(0, 8).map((j) => j.id));
+                    setApiIds(data.slice(0, 8).map((j) => j.id));
                 }
             } catch {
-                // Keep static data as fallback
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchJobs();
@@ -107,20 +107,42 @@ export default function FeaturedJobs() {
             </div>
 
             <div className="hidden lg:grid mt-12 grid-cols-4 gap-8">
-                {jobs.slice(0, 8).map((job, idx) => (
-                    <Link
-                        key={job.id}
-                        href={
-                            apiIds[idx] ? `/job/${apiIds[idx]}` : "/find-jobs"
-                        }
-                        className="transition-transform hover:scale-[1.02]"
-                    >
-                        <FeatureJobCard job={job} />
-                    </Link>
-                ))}
+                {isLoading
+                    ? Array.from({ length: 8 }).map((_, i) => (
+                          <div
+                              key={i}
+                              className="border border-[#D6DDEB] p-6 flex flex-col gap-4 animate-pulse"
+                          >
+                              <div className="flex items-center justify-between">
+                                  <div className="h-12 w-12 bg-gray-200" />
+                                  <div className="h-8 w-20 bg-gray-200" />
+                              </div>
+                              <div>
+                                  <div className="h-5 w-3/4 bg-gray-200" />
+                                  <div className="h-4 w-1/2 bg-gray-200 mt-2" />
+                              </div>
+                              <div className="h-12 w-full bg-gray-200" />
+                              <div className="flex gap-2">
+                                  <div className="h-6 w-16 bg-gray-200 rounded-full" />
+                                  <div className="h-6 w-16 bg-gray-200 rounded-full" />
+                              </div>
+                          </div>
+                      ))
+                    : jobs.slice(0, 8).map((job, idx) => (
+                          <Link
+                              key={job.id}
+                              href={
+                                  apiIds[idx]
+                                      ? `/job/${apiIds[idx]}`
+                                      : "/find-jobs"
+                              }
+                              className="transition-transform hover:scale-[1.02]"
+                          >
+                              <FeatureJobCard job={job} />
+                          </Link>
+                      ))}
             </div>
 
-            {/* Mobile carousel - 1 card */}
             <div className="lg:hidden mt-6">
                 <div className="overflow-hidden">
                     <Link

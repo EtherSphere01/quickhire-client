@@ -17,11 +17,13 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
     return (
         <div className="flex min-h-screen bg-[#F8F8FD]">
-            {/* Sidebar */}
             <aside className="hidden w-64 flex-col border-r border-[#D6DDEB] bg-white lg:flex">
                 <div className="flex h-16 items-center px-6 border-b border-[#D6DDEB]">
-                    <Link href="/">
+                    <Link href="/" className="flex items-center gap-2">
                         <Logo />
+                        <span className="text-2xl font-bold text-[#25324B] font-(family-name:--font-clash)">
+                            QuickHire
+                        </span>
                     </Link>
                 </div>
                 <nav className="flex-1 space-y-1 p-4">
@@ -29,7 +31,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                         <Link
                             key={item.href}
                             href={item.href}
-                            className={`flex items-center rounded-lg px-4 py-2.5 text-sm font-medium transition-colors ${
+                            className={`flex items-center px-4 py-2.5 text-sm font-medium transition-colors ${
                                 pathname === item.href
                                     ? "bg-[#4640DE]/10 text-[#4640DE]"
                                     : "text-[#515B6F] hover:bg-[#F8F8FD]"
@@ -48,18 +50,20 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                     </p>
                     <button
                         onClick={logout}
-                        className="w-full rounded-lg border border-[#D6DDEB] px-4 py-2 text-sm text-[#515B6F] hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors cursor-pointer"
+                        className="w-full border border-[#D6DDEB] px-4 py-2 text-sm text-[#515B6F] hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors cursor-pointer"
                     >
                         Logout
                     </button>
                 </div>
             </aside>
 
-            {/* Mobile header */}
             <div className="flex flex-1 flex-col">
                 <header className="flex h-16 items-center justify-between border-b border-[#D6DDEB] bg-white px-4 lg:hidden">
-                    <Link href="/">
+                    <Link href="/" className="flex items-center gap-2">
                         <Logo />
+                        <span className="text-xl font-bold text-[#25324B] font-(family-name:--font-clash)">
+                            QuickHire
+                        </span>
                     </Link>
                     <div className="flex items-center gap-3">
                         {navItems.map((item) => (

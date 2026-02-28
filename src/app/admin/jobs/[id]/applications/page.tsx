@@ -48,7 +48,7 @@ export default function ApplicationsPage() {
             </div>
 
             {applications.length === 0 ? (
-                <div className="rounded-xl border border-[#D6DDEB] bg-white py-16 text-center">
+                <div className="border border-[#D6DDEB] bg-white py-16 text-center">
                     <p className="text-lg text-[#7C8493]">
                         No applications received yet.
                     </p>
@@ -58,7 +58,7 @@ export default function ApplicationsPage() {
                     {applications.map((app) => (
                         <div
                             key={app.id}
-                            className="rounded-xl border border-[#D6DDEB] bg-white p-6"
+                            className="border border-[#D6DDEB] bg-white p-6"
                         >
                             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                                 <div>
@@ -74,7 +74,7 @@ export default function ApplicationsPage() {
                                         href={app.resume_link}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="rounded-lg bg-[#4640DE] px-4 py-2 text-xs font-medium text-white hover:bg-[#3530c9] transition-colors"
+                                        className="bg-[#4640DE] px-4 py-2 text-xs font-medium text-white hover:bg-[#3530c9] transition-colors"
                                     >
                                         View Resume
                                     </a>

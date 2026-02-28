@@ -15,6 +15,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import { PlusIcon } from "lucide-react";
 
 export default function AdminJobsPage() {
     const [jobs, setJobs] = useState<Job[]>([]);
@@ -71,14 +72,14 @@ export default function AdminJobsPage() {
                 </h1>
                 <Link
                     href="/admin/jobs/create"
-                    className="rounded-lg bg-[#4640DE] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#3530c9] transition-colors"
+                    className="bg-[#4640DE] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#3530c9] transition-colors flex items-center"
                 >
-                    + Post New Job
+                    <PlusIcon className="mr-1 h-4 w-4" /> Post New Job
                 </Link>
             </div>
 
             {jobs.length === 0 ? (
-                <div className="rounded-xl border border-[#D6DDEB] bg-white py-16 text-center">
+                <div className="border border-[#D6DDEB] bg-white py-16 text-center">
                     <p className="text-lg text-[#7C8493]">
                         No jobs posted yet.{" "}
                         <Link
@@ -90,7 +91,7 @@ export default function AdminJobsPage() {
                     </p>
                 </div>
             ) : (
-                <div className="rounded-xl border border-[#D6DDEB] bg-white">
+                <div className="border border-[#D6DDEB] bg-white">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left text-sm">
                             <thead>
@@ -131,11 +132,13 @@ export default function AdminJobsPage() {
                                                         alt={job.company}
                                                         width={36}
                                                         height={36}
-                                                        className="rounded-lg object-contain"
+                                                        className="object-contain"
                                                     />
                                                 ) : (
-                                                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#F8F8FD] text-sm font-bold text-[#4640DE]">
-                                                        {job.company[0]}
+                                                    <div className="flex h-9 w-9 items-center justify-center bg-[#F8F8FD] text-sm font-bold text-[#4640DE]">
+                                                        {job.company
+                                                            .charAt(0)
+                                                            .toUpperCase()}
                                                     </div>
                                                 )}
                                                 <div>
@@ -168,13 +171,13 @@ export default function AdminJobsPage() {
                                             <div className="flex items-center justify-end gap-2">
                                                 <Link
                                                     href={`/admin/jobs/${job.id}/edit`}
-                                                    className="rounded-lg border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-[#4640DE] hover:bg-[#4640DE]/5 transition-colors"
+                                                    className="border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-[#4640DE] hover:bg-[#4640DE]/5 transition-colors"
                                                 >
                                                     Edit
                                                 </Link>
                                                 <Link
                                                     href={`/admin/jobs/${job.id}/applications`}
-                                                    className="rounded-lg border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-[#26A4FF] hover:bg-[#26A4FF]/5 transition-colors"
+                                                    className="border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-[#26A4FF] hover:bg-[#26A4FF]/5 transition-colors"
                                                 >
                                                     Applications
                                                 </Link>
@@ -182,7 +185,7 @@ export default function AdminJobsPage() {
                                                     onClick={() =>
                                                         setDeleteId(job.id)
                                                     }
-                                                    className="rounded-lg border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                                                    className="border border-[#D6DDEB] px-3 py-1.5 text-xs font-medium text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
                                                 >
                                                     Delete
                                                 </button>

@@ -2,9 +2,6 @@ interface SpinnerProps {
     className?: string;
 }
 
-/**
- * Reusable loading spinner component.
- */
 export default function Spinner({ className = "" }: SpinnerProps) {
     return (
         <div className={`flex items-center justify-center ${className}`}>

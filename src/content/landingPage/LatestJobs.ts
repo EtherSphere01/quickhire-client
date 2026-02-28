@@ -2,7 +2,7 @@ export interface LatestJobProps {
     id: number;
     title: string;
     company: string;
-    companyLogo: string;
+    companyLogo: string | null;
     location: string;
     tags: { name: string; color: string; borderColor: string }[];
 }

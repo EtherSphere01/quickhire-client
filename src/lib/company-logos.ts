@@ -1,7 +1,3 @@
-/**
- * Maps company names to their local SVG logo paths.
- * Used as fallback when no company_logo URL is returned from the API.
- */
 const COMPANY_LOGO_MAP: Record<string, string> = {
     Revolut: "/Images/companies/Revolut.svg",
     Dropbox: "/Images/companies/Dropbox.svg",
@@ -19,7 +15,6 @@ const COMPANY_LOGO_MAP: Record<string, string> = {
     Udacity: "/Images/companies/Udacity.svg",
     Webflow: "/Images/companies/webFlow.svg",
 };
-
 
 export function getCompanyLogo(
     companyName: string,

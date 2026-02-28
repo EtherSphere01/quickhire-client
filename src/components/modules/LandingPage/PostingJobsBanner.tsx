@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export default function PostingJobsBanner() {
@@ -13,12 +14,14 @@ export default function PostingJobsBanner() {
                     <p className="text-center lg:text-start mt-4 lg:mt-6 text-[16px]">
                         Start posting jobs for only $10.
                     </p>
-                    <Button
-                        variant="secondary"
-                        className="text-[16px] font-bold px-6 py-3 mt-4 lg:mt-6 w-full lg:w-44.75"
-                    >
-                        Sign Up For Free
-                    </Button>
+                    <Link href="/signup">
+                        <Button
+                            variant="secondary"
+                            className="text-[16px] font-bold px-6 py-3 mt-4 lg:mt-6 w-full lg:w-44.75"
+                        >
+                            Sign Up For Free
+                        </Button>
+                    </Link>
                 </div>
 
                 <div className="relative flex justify-center lg:absolute lg:right-10 lg:bottom-0 lg:translate-y-1/6 lg:w-[45%] mt-6.5 lg:mt-0  pb-23.75 lg:pb-0">

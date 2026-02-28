@@ -8,7 +8,7 @@ import { SocialLinksData } from "@/content/footer/socialLinks";
 
 export default function Footer() {
     return (
-        <footer className="container mx-auto px-4 py-10 lg:py-16 text-[#D6DDEB]">
+        <footer className="container mx-auto px-4 py-10 lg:pt-16 text-[#D6DDEB]">
             <div className="flex flex-col lg:flex-row gap-6 lg:justify-between lg:items-start">
                 <div>
                     <div className="flex items-center gap-2">
@@ -79,7 +79,7 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <div className="border-t-2 border-[#FFFFFF]/10 my-6 lg:my-20 pt-6 lg:pt-10 w-full flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="border-t-2 border-[#FFFFFF]/10 my-6 lg:mt-20 lg:mb-0 pt-6 lg:pt-10 w-full flex flex-col md:flex-row items-center justify-between gap-6">
                 <p className="text-[16px] font-medium text-[#FFFFFF]/40">
                     {new Date().getFullYear()} &copy; QuickHire. All rights
                     reserved.

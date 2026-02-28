@@ -76,7 +76,7 @@ export default function CreateJobPage() {
                 Post New Job
             </h1>
 
-            <div className="rounded-xl border border-[#D6DDEB] bg-white p-6 sm:p-8">
+            <div className="border border-[#D6DDEB] bg-white p-6 sm:p-8">
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}

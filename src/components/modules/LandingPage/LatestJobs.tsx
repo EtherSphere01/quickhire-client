@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { jobApi } from "@/api/jobs";
 import type { Job } from "@/api/types";
 import { JOB_TYPE_LABELS } from "@/api/types";
 import { LatestJobsData } from "@/content/landingPage/LatestJobs";
 import type { LatestJobProps } from "@/content/landingPage/LatestJobs";
 import { getCompanyLogo } from "@/lib/company-logos";
+import { getLandingJobs } from "@/lib/job-cache";
 import LatestJobCard from "./LatestJobCard";
 import ShowAllJobsButton from "./ShowAllJobsButton";
 import Link from "next/link";
@@ -16,9 +16,7 @@ function mapJobToLatestProps(job: Job): LatestJobProps {
         id: job.id,
         title: job.title,
         company: job.company,
-        companyLogo:
-            getCompanyLogo(job.company, job.company_logo) ||
-            "/Images/companies/Nomad.svg",
+        companyLogo: getCompanyLogo(job.company, job.company_logo),
         location: job.location,
         tags: [
             {
@@ -47,14 +45,14 @@ function mapJobToLatestProps(job: Job): LatestJobProps {
 export default function LatestJobs() {
     const [jobs, setJobs] = useState<LatestJobProps[]>(LatestJobsData);
     const [apiIds, setApiIds] = useState<number[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const res = await jobApi.getAll();
-                if (res.data && res.data.length > 0) {
-                    // Take the latest 8 (sorted by newest first)
-                    const sorted = [...res.data].sort(
+                const data = await getLandingJobs();
+                if (data.length > 0) {
+                    const sorted = [...data].sort(
                         (a, b) =>
                             new Date(b.created_at).getTime() -
                             new Date(a.created_at).getTime(),
@@ -63,7 +61,8 @@ export default function LatestJobs() {
                     setApiIds(sorted.slice(0, 8).map((j) => j.id));
                 }
             } catch {
-                // Keep static data as fallback
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchJobs();
@@ -81,30 +80,64 @@ export default function LatestJobs() {
             </div>
 
             <div className="hidden lg:grid my-12 grid-cols-2 gap-x-8 gap-y-4">
-                {jobs.slice(0, 8).map((job, idx) => (
-                    <Link
-                        key={job.id}
-                        href={
-                            apiIds[idx] ? `/job/${apiIds[idx]}` : "/find-jobs"
-                        }
-                        className="transition-transform hover:scale-[1.01]"
-                    >
-                        <LatestJobCard job={job} />
-                    </Link>
-                ))}
+                {isLoading
+                    ? Array.from({ length: 8 }).map((_, i) => (
+                          <div
+                              key={i}
+                              className="border border-[#D6DDEB] p-6 flex items-start gap-6 animate-pulse"
+                          >
+                              <div className="h-12 w-12 bg-gray-200 shrink-0" />
+                              <div className="flex-1 space-y-2">
+                                  <div className="h-5 w-3/4 bg-gray-200" />
+                                  <div className="h-4 w-1/2 bg-gray-200" />
+                                  <div className="flex gap-2 mt-2">
+                                      <div className="h-6 w-16 bg-gray-200 rounded-full" />
+                                      <div className="h-6 w-16 bg-gray-200 rounded-full" />
+                                  </div>
+                              </div>
+                          </div>
+                      ))
+                    : jobs.slice(0, 8).map((job, idx) => (
+                          <Link
+                              key={job.id}
+                              href={
+                                  apiIds[idx]
+                                      ? `/job/${apiIds[idx]}`
+                                      : "/find-jobs"
+                              }
+                              className="transition-transform hover:scale-[1.01]"
+                          >
+                              <LatestJobCard job={job} />
+                          </Link>
+                      ))}
             </div>
 
             <div className="lg:hidden mt-6 flex flex-col gap-4">
-                {jobs.slice(0, 6).map((job, idx) => (
-                    <Link
-                        key={job.id}
-                        href={
-                            apiIds[idx] ? `/job/${apiIds[idx]}` : "/find-jobs"
-                        }
-                    >
-                        <LatestJobCard job={job} />
-                    </Link>
-                ))}
+                {isLoading
+                    ? Array.from({ length: 4 }).map((_, i) => (
+                          <div
+                              key={i}
+                              className="border border-[#D6DDEB] p-6 flex items-start gap-4 animate-pulse"
+                          >
+                              <div className="h-12 w-12 bg-gray-200 shrink-0" />
+                              <div className="flex-1 space-y-2">
+                                  <div className="h-5 w-3/4 bg-gray-200" />
+                                  <div className="h-4 w-1/2 bg-gray-200" />
+                              </div>
+                          </div>
+                      ))
+                    : jobs.slice(0, 6).map((job, idx) => (
+                          <Link
+                              key={job.id}
+                              href={
+                                  apiIds[idx]
+                                      ? `/job/${apiIds[idx]}`
+                                      : "/find-jobs"
+                              }
+                          >
+                              <LatestJobCard job={job} />
+                          </Link>
+                      ))}
             </div>
 
             <div className="lg:hidden mt-5">

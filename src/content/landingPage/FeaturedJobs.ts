@@ -2,7 +2,7 @@ export interface FeaturedJobProps {
     id: number;
     title: string;
     company: string;
-    companyLogo: string;
+    companyLogo: string | null;
     location: string;
     description: string;
     jobType: string;

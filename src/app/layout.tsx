@@ -28,6 +28,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
+                <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
                 <link
                     rel="stylesheet"
                     href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap"

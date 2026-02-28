@@ -16,6 +16,7 @@ import {
     type ApplyValues,
 } from "@/lib/schemas/application.schema";
 import { getCompanyLogo } from "@/lib/company-logos";
+import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -38,6 +39,7 @@ import {
 export default function JobDetailPage() {
     const { id } = useParams<{ id: string }>();
     const router = useRouter();
+    const { user } = useAuth();
     const [job, setJob] = useState<Job | null>(null);
     const [loading, setLoading] = useState(true);
     const [applying, setApplying] = useState(false);
@@ -45,8 +47,20 @@ export default function JobDetailPage() {
 
     const form = useForm<ApplyValues>({
         resolver: zodResolver(applySchema),
-        defaultValues: { name: "", email: "", resume_link: "", cover_note: "" },
+        defaultValues: {
+            name: user?.name ?? "",
+            email: user?.email ?? "",
+            resume_link: "",
+            cover_note: "",
+        },
     });
+
+    useEffect(() => {
+        if (user) {
+            if (!form.getValues("name")) form.setValue("name", user.name);
+            if (!form.getValues("email")) form.setValue("email", user.email);
+        }
+    }, [user, form]);
 
     useEffect(() => {
         const fetchJob = async () => {
@@ -93,7 +107,6 @@ export default function JobDetailPage() {
 
     return (
         <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-            {/* Back link */}
             <Link
                 href="/find-jobs"
                 className="mb-6 inline-flex items-center gap-1 text-sm text-[#7C8493] hover:text-[#4640DE] transition-colors"
@@ -110,8 +123,7 @@ export default function JobDetailPage() {
                 Back to Jobs
             </Link>
 
-            {/* Header Card */}
-            <div className="rounded-xl border border-[#D6DDEB] bg-white p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="border border-[#D6DDEB] bg-white p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
                     <div className="flex items-start gap-5">
                         {getCompanyLogo(job.company, job.company_logo) ? (
@@ -125,11 +137,11 @@ export default function JobDetailPage() {
                                 alt={job.company}
                                 width={64}
                                 height={64}
-                                className="rounded-xl object-contain"
+                                className="object-contain"
                             />
                         ) : (
-                            <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-[#F8F8FD] text-2xl font-bold text-[#4640DE]">
-                                {job.company[0]}
+                            <div className="flex h-16 w-16 items-center justify-center bg-[#F8F8FD] text-2xl font-bold text-[#4640DE]">
+                                {job.company.charAt(0).toUpperCase()}
                             </div>
                         )}
                         <div>
@@ -159,7 +171,6 @@ export default function JobDetailPage() {
                         </div>
                     </div>
 
-                    {/* Apply Now */}
                     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                         <DialogTrigger asChild>
                             <Button className="bg-[#4640DE] hover:bg-[#3530c9] px-8 cursor-pointer">
@@ -261,8 +272,7 @@ export default function JobDetailPage() {
                 </div>
             </div>
 
-            {/* Description */}
-            <div className="mt-8 rounded-xl border border-[#D6DDEB] bg-white p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-150">
+            <div className="mt-8 border border-[#D6DDEB] bg-white p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-150">
                 <h2 className="mb-4 text-xl font-semibold text-[#25324B]">
                     Job Description
                 </h2>
@@ -271,7 +281,6 @@ export default function JobDetailPage() {
                 </div>
             </div>
 
-            {/* Posted date */}
             <p className="mt-6 text-center text-sm text-[#7C8493]">
                 Posted on{" "}
                 {new Date(job.created_at).toLocaleDateString("en-US", {

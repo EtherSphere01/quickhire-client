@@ -16,7 +16,6 @@ export default function Header() {
     const pathname = usePathname();
     const { user, isAdmin, isAuthenticated, logout, isLoading } = useAuth();
 
-    // Dynamic background: landing page gets light purple, others get white
     const isLandingPage = pathname === "/";
     const headerBg = isLandingPage ? "bg-[#F8F8FD]" : "bg-white";
 
@@ -49,7 +48,6 @@ export default function Header() {
                             </span>
                         </Link>
 
-                        {/* Desktop Nav */}
                         <div className="hidden lg:block">
                             {NavItems.map((item) => (
                                 <Link
@@ -71,7 +69,6 @@ export default function Header() {
                         </div>
                     </div>
 
-                    {/* Desktop */}
                     <div className="hidden lg:flex items-center gap-4 h-12">
                         {isLoading ? (
                             <div className="h-5 w-24 animate-pulse rounded bg-[#D6DDEB]" />
@@ -112,7 +109,6 @@ export default function Header() {
                         )}
                     </div>
 
-                    {/* Mobile Menu */}
                     <button
                         type="button"
                         onClick={() => setMenuOpen((prev) => !prev)}
@@ -122,9 +118,8 @@ export default function Header() {
                     </button>
                 </div>
 
-                {/* Mobile Nav Menu */}
                 {menuOpen && (
-                    <nav className="lg:hidden absolute left-0 right-0 top-full z-40 mx-4 mt-1 flex flex-col gap-4 rounded-lg border border-[#D6DDEB] bg-white p-4 shadow-lg">
+                    <nav className="lg:hidden absolute left-0 right-0 top-full z-40 mx-4 mt-1 flex flex-col gap-4 border border-[#D6DDEB] bg-white p-4 shadow-lg">
                         {NavItems.map((item) => (
                             <Link
                                 key={item.name}

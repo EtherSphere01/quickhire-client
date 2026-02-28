@@ -1,4 +1,4 @@
-import { api } from "./client";
+import { API_BASE, type ApiResponse } from "./types";
 import type { Job } from "./types";
 
 export type JobQueryParams = {
@@ -10,7 +10,7 @@ export type JobQueryParams = {
 };
 
 export const jobApi = {
-    getAll: (params?: JobQueryParams) => {
+    getAll: async (params?: JobQueryParams): Promise<ApiResponse<Job[]>> => {
         const searchParams = new URLSearchParams();
         if (params?.search) searchParams.set("search", params.search);
         if (params?.location) searchParams.set("location", params.location);
@@ -18,15 +18,58 @@ export const jobApi = {
         if (params?.page) searchParams.set("page", String(params.page));
         if (params?.limit) searchParams.set("limit", String(params.limit));
         const qs = searchParams.toString();
-        return api.get<Job[]>(`/jobs${qs ? `?${qs}` : ""}`);
+
+        const res = await fetch(`${API_BASE}/jobs${qs ? `?${qs}` : ""}`, {
+            method: "GET",
+            credentials: "include",
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to fetch jobs");
+        return data;
     },
 
-    getById: (id: number) => api.get<Job>(`/jobs/${id}`),
+    getById: async (id: number): Promise<ApiResponse<Job>> => {
+        const res = await fetch(`${API_BASE}/jobs/${id}`, {
+            method: "GET",
+            credentials: "include",
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to fetch job");
+        return data;
+    },
 
-    create: (formData: FormData) => api.post<Job>("/jobs", formData),
+    create: async (formData: FormData): Promise<ApiResponse<Job>> => {
+        const res = await fetch(`${API_BASE}/jobs`, {
+            method: "POST",
+            credentials: "include",
+            body: formData,
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to create job");
+        return data;
+    },
 
-    update: (id: number, formData: FormData) =>
-        api.patch<Job>(`/jobs/${id}`, formData),
+    update: async (
+        id: number,
+        formData: FormData,
+    ): Promise<ApiResponse<Job>> => {
+        const res = await fetch(`${API_BASE}/jobs/${id}`, {
+            method: "PATCH",
+            credentials: "include",
+            body: formData,
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to update job");
+        return data;
+    },
 
-    delete: (id: number) => api.delete(`/jobs/${id}`),
+    delete: async (id: number): Promise<ApiResponse> => {
+        const res = await fetch(`${API_BASE}/jobs/${id}`, {
+            method: "DELETE",
+            credentials: "include",
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to delete job");
+        return data;
+    },
 };

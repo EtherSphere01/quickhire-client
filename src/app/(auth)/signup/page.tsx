@@ -52,10 +52,13 @@ export default function SignupPage() {
 
     return (
         <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="rounded-2xl border border-[#D6DDEB] bg-white p-8 shadow-lg">
+            <div className="border border-[#D6DDEB] bg-white p-8 shadow-lg">
                 <div className="mb-6 flex flex-col items-center gap-3">
-                    <Link href="/">
+                    <Link href="/" className="flex items-center gap-2">
                         <Logo />
+                        <span className="font-red-hat-display font-extrabold text-[24px]">
+                            QuickHire
+                        </span>
                     </Link>
                     <h1 className="font-(family-name:--font-clash-display) text-2xl font-semibold text-[#25324B]">
                         Create Account

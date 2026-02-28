@@ -110,7 +110,7 @@ export default function EditJobPage() {
         <div className="mx-auto max-w-2xl">
             <h1 className="mb-8 text-2xl font-bold text-[#25324B]">Edit Job</h1>
 
-            <div className="rounded-xl border border-[#D6DDEB] bg-white p-6 sm:p-8">
+            <div className="border border-[#D6DDEB] bg-white p-6 sm:p-8">
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}

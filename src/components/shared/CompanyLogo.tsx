@@ -8,7 +8,6 @@ interface CompanyLogoProps {
     className?: string;
 }
 
-
 export default function CompanyLogo({
     company,
     logoUrl,
@@ -31,7 +30,7 @@ export default function CompanyLogo({
 
     return (
         <div
-            className={`flex items-center justify-center rounded-lg bg-[#F8F8FD] font-bold text-[#4640DE] ${className}`}
+            className={`flex items-center justify-center bg-[#F8F8FD] font-bold text-[#4640DE] ${className}`}
             style={{ width: size, height: size, fontSize: size * 0.4 }}
         >
             {company[0]}

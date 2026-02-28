@@ -13,7 +13,6 @@ export default function Home() {
             <div className="relative bg-[#F8F8FD] overflow-hidden">
                 <HeroSection />
 
-                {/* Pattern - Desktop */}
                 <div className="hidden lg:block absolute top-0 right-0 h-full w-[60%] pointer-events-none z-0">
                     <Image
                         src="/images/pattern.svg"
@@ -24,7 +23,6 @@ export default function Home() {
                     />
                 </div>
 
-                {/* Pattern - Mobile */}
                 <div className="lg:hidden absolute top-70 -right-30 h-full pointer-events-none z-0">
                     <Image
                         src="/images/pattern.svg"

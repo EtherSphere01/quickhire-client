@@ -55,7 +55,6 @@ function FindJobsContent() {
         fetchJobs();
     }, [fetchJobs]);
 
-    // Sync search params on mount
     useEffect(() => {
         setSearch(searchParams.get("search") || "");
         setLocation(searchParams.get("location") || "");
@@ -79,8 +78,7 @@ function FindJobsContent() {
 
     return (
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            {/* Search & Filter Bar */}
-            <div className="mb-10 rounded-xl border border-[#D6DDEB] bg-white p-4 shadow-sm sm:p-6">
+            <div className="mb-10 border border-[#D6DDEB] bg-white p-4 shadow-sm sm:p-6">
                 <div className="flex flex-col gap-3 sm:flex-row">
                     <Input
                         placeholder="Job title or keyword"
@@ -123,7 +121,6 @@ function FindJobsContent() {
                 </div>
             </div>
 
-            {/* Results */}
             {loading ? (
                 <div className="flex items-center justify-center py-20">
                     <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#4640DE] border-t-transparent" />
@@ -153,7 +150,7 @@ function FindJobsContent() {
                             <Link
                                 key={job.id}
                                 href={`/job/${job.id}`}
-                                className="group rounded-xl border border-[#D6DDEB] bg-white p-6 transition-all hover:border-[#4640DE] hover:shadow-md"
+                                className="group border border-[#D6DDEB] bg-white p-6 transition-all hover:border-[#4640DE] hover:shadow-md"
                             >
                                 <div className="mb-4 flex items-center gap-4">
                                     {getCompanyLogo(
@@ -170,11 +167,13 @@ function FindJobsContent() {
                                             alt={job.company}
                                             width={48}
                                             height={48}
-                                            className="rounded-lg object-contain"
+                                            className="object-contain"
                                         />
                                     ) : (
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#F8F8FD] text-lg font-bold text-[#4640DE]">
-                                            {job.company[0]}
+                                        <div className="flex h-12 w-12 items-center justify-center bg-[#F8F8FD] text-lg font-bold text-[#4640DE]">
+                                            {job.company
+                                                .charAt(0)
+                                                .toUpperCase()}
                                         </div>
                                     )}
                                     <div>
@@ -212,7 +211,6 @@ function FindJobsContent() {
                         ))}
                     </div>
 
-                    {/* Pagination */}
                     {totalPages > 1 && (
                         <div className="mt-10 flex items-center justify-center gap-2">
                             <Button

@@ -14,7 +14,6 @@ export function proxy(request: NextRequest) {
     const isAuthenticated = !!user;
     const isAdmin = user?.role === "ADMIN";
 
-    // Protect admin routes
     if (pathname.startsWith("/admin")) {
         if (!isAuthenticated) {
             return NextResponse.redirect(new URL("/login", request.url));
@@ -24,7 +23,6 @@ export function proxy(request: NextRequest) {
         }
     }
 
-    // Redirect logged-in users away from auth pages
     if (isAuthenticated && (pathname === "/login" || pathname === "/signup")) {
         return NextResponse.redirect(new URL("/", request.url));
     }
