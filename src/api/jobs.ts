@@ -9,7 +9,25 @@ export type JobQueryParams = {
     limit?: number;
 };
 
+export type DashboardStats = {
+    totalJobs: number;
+    totalApplications: number;
+    jobsByType: Record<string, number>;
+    jobsByCategory: Record<string, number>;
+};
+
 export const jobApi = {
+    getStats: async (): Promise<ApiResponse<DashboardStats>> => {
+        const res = await fetch(`${API_BASE}/jobs/stats`, {
+            method: "GET",
+            credentials: "include",
+        });
+        const data = await res.json();
+        if (!res.ok)
+            throw new Error(data.message || "Failed to fetch stats");
+        return data;
+    },
+
     getAll: async (params?: JobQueryParams): Promise<ApiResponse<Job[]>> => {
         const searchParams = new URLSearchParams();
         if (params?.search) searchParams.set("search", params.search);
