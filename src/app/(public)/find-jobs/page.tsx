@@ -34,6 +34,8 @@ function FindJobsContent() {
         searchParams.get("category") || "",
     );
     const [page, setPage] = useState(1);
+    const [totalJobs, setTotalJobs] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
 
     const fetchJobs = useCallback(async () => {
         setLoading(true);
@@ -42,14 +44,20 @@ function FindJobsContent() {
                 search: search || undefined,
                 location: location || undefined,
                 category: category || undefined,
+                page,
+                limit: ITEMS_PER_PAGE,
             });
             setJobs(res.data || []);
+            if (res.meta) {
+                setTotalJobs(res.meta.total);
+                setTotalPages(res.meta.totalPages);
+            }
         } catch {
             setJobs([]);
         } finally {
             setLoading(false);
         }
-    }, [search, location, category]);
+    }, [search, location, category, page]);
 
     useEffect(() => {
         fetchJobs();
@@ -69,12 +77,6 @@ function FindJobsContent() {
         router.push(`/find-jobs?${params.toString()}`);
         setPage(1);
     };
-
-    const totalPages = Math.ceil(jobs.length / ITEMS_PER_PAGE);
-    const paginatedJobs = jobs.slice(
-        (page - 1) * ITEMS_PER_PAGE,
-        page * ITEMS_PER_PAGE,
-    );
 
     return (
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -122,10 +124,38 @@ function FindJobsContent() {
             </div>
 
             {loading ? (
-                <div className="flex items-center justify-center py-20">
-                    <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#4640DE] border-t-transparent" />
-                </div>
-            ) : paginatedJobs.length === 0 ? (
+                <>
+                    <div className="mb-6 flex items-center gap-2">
+                        <div className="h-4 w-20 animate-pulse bg-[#D6DDEB]/50" />
+                        <div className="h-4 w-8 animate-pulse bg-[#D6DDEB]/50" />
+                        <div className="h-4 w-12 animate-pulse bg-[#D6DDEB]/50" />
+                    </div>
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <div
+                                key={i}
+                                className="border border-[#D6DDEB] bg-white p-6 animate-pulse"
+                            >
+                                <div className="mb-4 flex items-center gap-4">
+                                    <div className="h-12 w-12 bg-[#D6DDEB]/50 shrink-0" />
+                                    <div className="flex-1 space-y-2">
+                                        <div className="h-5 w-3/4 bg-[#D6DDEB]/50" />
+                                        <div className="h-4 w-1/2 bg-[#D6DDEB]/50" />
+                                    </div>
+                                </div>
+                                <div className="mb-4 space-y-2">
+                                    <div className="h-4 w-full bg-[#D6DDEB]/50" />
+                                    <div className="h-4 w-2/3 bg-[#D6DDEB]/50" />
+                                </div>
+                                <div className="flex gap-2">
+                                    <div className="h-6 w-20 rounded-full bg-[#D6DDEB]/50" />
+                                    <div className="h-6 w-16 rounded-full bg-[#D6DDEB]/50" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            ) : jobs.length === 0 ? (
                 <div className="py-20 text-center">
                     <p className="text-lg text-[#7C8493]">
                         No jobs found. Try a different search.
@@ -136,17 +166,17 @@ function FindJobsContent() {
                     <p className="mb-6 text-sm text-[#7C8493]">
                         Showing{" "}
                         <span className="font-semibold text-[#25324B]">
-                            {paginatedJobs.length}
+                            {jobs.length}
                         </span>{" "}
                         of{" "}
                         <span className="font-semibold text-[#25324B]">
-                            {jobs.length}
+                            {totalJobs}
                         </span>{" "}
                         jobs
                     </p>
 
                     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {paginatedJobs.map((job) => (
+                        {jobs.map((job) => (
                             <Link
                                 key={job.id}
                                 href={`/job/${job.id}`}
@@ -263,9 +293,40 @@ export default function FindJobsPage() {
     return (
         <Suspense
             fallback={
-                <div className="flex min-h-[60vh] items-center justify-center">
-                    <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#4640DE] border-t-transparent" />
-                </div>
+                <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+                    <div className="mb-10 border border-[#D6DDEB] bg-white p-4 shadow-sm sm:p-6 animate-pulse">
+                        <div className="flex flex-col gap-3 sm:flex-row">
+                            <div className="h-10 flex-1 bg-[#D6DDEB]/50" />
+                            <div className="h-10 flex-1 bg-[#D6DDEB]/50" />
+                            <div className="h-10 w-full sm:w-48 bg-[#D6DDEB]/50" />
+                            <div className="h-10 w-full sm:w-24 bg-[#D6DDEB]/50" />
+                        </div>
+                    </div>
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <div
+                                key={i}
+                                className="border border-[#D6DDEB] bg-white p-6 animate-pulse"
+                            >
+                                <div className="mb-4 flex items-center gap-4">
+                                    <div className="h-12 w-12 bg-[#D6DDEB]/50 shrink-0" />
+                                    <div className="flex-1 space-y-2">
+                                        <div className="h-5 w-3/4 bg-[#D6DDEB]/50" />
+                                        <div className="h-4 w-1/2 bg-[#D6DDEB]/50" />
+                                    </div>
+                                </div>
+                                <div className="mb-4 space-y-2">
+                                    <div className="h-4 w-full bg-[#D6DDEB]/50" />
+                                    <div className="h-4 w-2/3 bg-[#D6DDEB]/50" />
+                                </div>
+                                <div className="flex gap-2">
+                                    <div className="h-6 w-20 rounded-full bg-[#D6DDEB]/50" />
+                                    <div className="h-6 w-16 rounded-full bg-[#D6DDEB]/50" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
             }
         >
             <FindJobsContent />

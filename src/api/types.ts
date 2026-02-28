@@ -1,9 +1,17 @@
 export const API_BASE = "/api";
 
+export type PaginationMeta = {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+};
+
 export type ApiResponse<T = unknown> = {
     success: boolean;
     message: string;
     data?: T;
+    meta?: PaginationMeta;
 };
 
 export type JobType =

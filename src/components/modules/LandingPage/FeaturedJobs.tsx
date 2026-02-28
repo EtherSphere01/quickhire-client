@@ -144,17 +144,35 @@ export default function FeaturedJobs() {
             </div>
 
             <div className="lg:hidden mt-6">
-                <div className="overflow-hidden">
-                    <Link
-                        href={
-                            apiIds[currentIndex]
-                                ? `/job/${apiIds[currentIndex]}`
-                                : "/find-jobs"
-                        }
-                    >
-                        <FeatureJobCard job={jobs[currentIndex]} />
-                    </Link>
-                </div>
+                {isLoading ? (
+                    <div className="border border-[#D6DDEB] p-6 flex flex-col gap-4 animate-pulse">
+                        <div className="flex items-center justify-between">
+                            <div className="h-12 w-12 bg-gray-200" />
+                            <div className="h-8 w-20 bg-gray-200" />
+                        </div>
+                        <div>
+                            <div className="h-5 w-3/4 bg-gray-200" />
+                            <div className="h-4 w-1/2 bg-gray-200 mt-2" />
+                        </div>
+                        <div className="h-12 w-full bg-gray-200" />
+                        <div className="flex gap-2">
+                            <div className="h-6 w-16 bg-gray-200 rounded-full" />
+                            <div className="h-6 w-16 bg-gray-200 rounded-full" />
+                        </div>
+                    </div>
+                ) : (
+                    <div className="overflow-hidden">
+                        <Link
+                            href={
+                                apiIds[currentIndex]
+                                    ? `/job/${apiIds[currentIndex]}`
+                                    : "/find-jobs"
+                            }
+                        >
+                            <FeatureJobCard job={jobs[currentIndex]} />
+                        </Link>
+                    </div>
+                )}
                 <div className="lg:hidden mt-5">
                     <ShowAllJobsButton />
                 </div>

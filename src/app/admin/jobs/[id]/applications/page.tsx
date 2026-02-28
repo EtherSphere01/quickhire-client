@@ -27,8 +27,34 @@ export default function ApplicationsPage() {
 
     if (loading) {
         return (
-            <div className="flex min-h-[50vh] items-center justify-center">
-                <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#4640DE] border-t-transparent" />
+            <div className="space-y-6 animate-pulse">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="h-7 w-36 bg-[#D6DDEB]/50" />
+                    <div className="h-4 w-24 bg-[#D6DDEB]/50" />
+                </div>
+                <div className="grid gap-4">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                        <div
+                            key={i}
+                            className="border border-[#D6DDEB] bg-white p-6"
+                        >
+                            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                <div className="space-y-2">
+                                    <div className="h-5 w-40 bg-[#D6DDEB]/50" />
+                                    <div className="h-4 w-48 bg-[#D6DDEB]/50" />
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <div className="h-8 w-28 bg-[#D6DDEB]/50" />
+                                    <div className="h-4 w-20 bg-[#D6DDEB]/50" />
+                                </div>
+                            </div>
+                            <div className="mt-3 space-y-2">
+                                <div className="h-4 w-full bg-[#D6DDEB]/50" />
+                                <div className="h-4 w-3/4 bg-[#D6DDEB]/50" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         );
     }

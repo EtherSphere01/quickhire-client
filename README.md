@@ -28,8 +28,10 @@ A modern job board frontend built with **Next.js 16**, **React 19**, **Tailwind 
 - Job search with keyword, location, and category filters
 - Job detail page with application form
 - User authentication (register / login / logout)
-- Admin dashboard with full CRUD for job postings
+- Admin dashboard with stats overview, top applied job, company statistics, recent applicants, and job type breakdown
+- Admin job management with full CRUD and server-side pagination
 - Company logo upload via Cloudinary
+- Server-side pagination across all listing pages
 - Responsive design (mobile + desktop)
 - Skeleton loading states for better UX
 - Auto-fill applicant name and email from auth context
@@ -109,9 +111,9 @@ src/
 │       └── jobs/             # Job management (CRUD)
 ├── api/                     # API fetch functions
 │   ├── auth.ts              # Login, register, logout, refresh
-│   ├── jobs.ts              # Job CRUD operations
-│   ├── applications.ts      # Apply & view applications
-│   └── types.ts             # Shared types & constants
+│   ├── jobs.ts              # Job CRUD + dashboard stats
+│   ├── applications.ts      # Apply, list by job, list all
+│   └── types.ts             # Shared types, pagination meta
 ├── components/
 │   ├── modules/             # Feature-specific components
 │   ├── shared/              # Header, Footer, Spinner

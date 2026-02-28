@@ -14,6 +14,34 @@ export type DashboardStats = {
     totalApplications: number;
     jobsByType: Record<string, number>;
     jobsByCategory: Record<string, number>;
+    jobsByCompany: Record<string, number>;
+    topAppliedJob: {
+        id: number;
+        title: string;
+        company: string;
+        company_logo: string | null;
+        applicationCount: number;
+    } | null;
+    recentApplications: {
+        id: number;
+        job_id: number;
+        name: string;
+        email: string;
+        resume_link: string;
+        cover_note: string;
+        created_at: string;
+        job: { title: string; company: string };
+    }[];
+    recentJobs: {
+        id: number;
+        title: string;
+        company: string;
+        company_logo: string | null;
+        job_type: string;
+        category: string;
+        location: string;
+        created_at: string;
+    }[];
 };
 
 export const jobApi = {

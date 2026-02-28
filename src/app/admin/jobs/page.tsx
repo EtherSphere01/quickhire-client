@@ -25,24 +25,27 @@ export default function AdminJobsPage() {
     const [deleteId, setDeleteId] = useState<number | null>(null);
     const [deleting, setDeleting] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-
-    const totalPages = Math.ceil(jobs.length / JOBS_PER_PAGE);
-    const paginatedJobs = jobs.slice(
-        (currentPage - 1) * JOBS_PER_PAGE,
-        currentPage * JOBS_PER_PAGE,
-    );
+    const [totalJobs, setTotalJobs] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
 
     const fetchJobs = useCallback(async () => {
         setLoading(true);
         try {
-            const res = await jobApi.getAll();
+            const res = await jobApi.getAll({
+                page: currentPage,
+                limit: JOBS_PER_PAGE,
+            });
             setJobs(res.data || []);
+            if (res.meta) {
+                setTotalJobs(res.meta.total);
+                setTotalPages(res.meta.totalPages);
+            }
         } catch {
             setJobs([]);
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [currentPage]);
 
     useEffect(() => {
         fetchJobs();
@@ -55,9 +58,10 @@ export default function AdminJobsPage() {
             await jobApi.delete(deleteId);
             toast.success("Job deleted successfully");
             setDeleteId(null);
-            fetchJobs();
-            if (paginatedJobs.length === 1 && currentPage > 1) {
+            if (jobs.length === 1 && currentPage > 1) {
                 setCurrentPage(currentPage - 1);
+            } else {
+                fetchJobs();
             }
         } catch (err: unknown) {
             toast.error(
@@ -67,14 +71,6 @@ export default function AdminJobsPage() {
             setDeleting(false);
         }
     };
-
-    if (loading) {
-        return (
-            <div className="flex min-h-[50vh] items-center justify-center">
-                <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#4640DE] border-t-transparent" />
-            </div>
-        );
-    }
 
     return (
         <div className="space-y-6">
@@ -90,7 +86,93 @@ export default function AdminJobsPage() {
                 </Link>
             </div>
 
-            {jobs.length === 0 ? (
+            {loading ? (
+                <>
+                    <div className="hidden md:block border border-[#D6DDEB] bg-white">
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left text-sm">
+                                <thead>
+                                    <tr className="border-b border-[#D6DDEB] text-[#7C8493]">
+                                        <th className="p-4 font-medium">Job</th>
+                                        <th className="p-4 font-medium">
+                                            Type
+                                        </th>
+                                        <th className="p-4 font-medium hidden lg:table-cell">
+                                            Category
+                                        </th>
+                                        <th className="p-4 font-medium">
+                                            Location
+                                        </th>
+                                        <th className="p-4 font-medium">
+                                            Date
+                                        </th>
+                                        <th className="p-4 font-medium text-right">
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {Array.from({ length: 5 }).map((_, i) => (
+                                        <tr
+                                            key={i}
+                                            className="border-b border-[#D6DDEB] last:border-0 animate-pulse"
+                                        >
+                                            <td className="p-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="h-9 w-9 bg-[#D6DDEB]/50 shrink-0" />
+                                                    <div className="space-y-1.5">
+                                                        <div className="h-4 w-32 bg-[#D6DDEB]/50" />
+                                                        <div className="h-3 w-20 bg-[#D6DDEB]/50" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="p-4">
+                                                <div className="h-6 w-20 rounded-full bg-[#D6DDEB]/50" />
+                                            </td>
+                                            <td className="p-4 hidden lg:table-cell">
+                                                <div className="h-4 w-20 bg-[#D6DDEB]/50" />
+                                            </td>
+                                            <td className="p-4">
+                                                <div className="h-4 w-24 bg-[#D6DDEB]/50" />
+                                            </td>
+                                            <td className="p-4">
+                                                <div className="h-4 w-20 bg-[#D6DDEB]/50" />
+                                            </td>
+                                            <td className="p-4">
+                                                <div className="flex justify-end gap-2">
+                                                    <div className="h-7 w-12 bg-[#D6DDEB]/50" />
+                                                    <div className="h-7 w-20 bg-[#D6DDEB]/50" />
+                                                    <div className="h-7 w-14 bg-[#D6DDEB]/50" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div className="md:hidden space-y-3">
+                        {Array.from({ length: 4 }).map((_, i) => (
+                            <div
+                                key={i}
+                                className="border border-[#D6DDEB] bg-white p-4 animate-pulse"
+                            >
+                                <div className="flex items-start gap-3">
+                                    <div className="h-10 w-10 bg-[#D6DDEB]/50 shrink-0" />
+                                    <div className="flex-1 space-y-2">
+                                        <div className="h-4 w-3/4 bg-[#D6DDEB]/50" />
+                                        <div className="h-3 w-1/2 bg-[#D6DDEB]/50" />
+                                    </div>
+                                </div>
+                                <div className="mt-3 flex gap-2">
+                                    <div className="h-6 w-16 rounded-full bg-[#D6DDEB]/50" />
+                                    <div className="h-4 w-20 bg-[#D6DDEB]/50" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            ) : jobs.length === 0 ? (
                 <div className="border border-[#D6DDEB] bg-white py-16 text-center">
                     <p className="text-lg text-[#7C8493]">
                         No jobs posted yet.{" "}
@@ -128,7 +210,7 @@ export default function AdminJobsPage() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {paginatedJobs.map((job) => (
+                                    {jobs.map((job) => (
                                         <tr
                                             key={job.id}
                                             className="border-b border-[#D6DDEB] last:border-0 hover:bg-[#F8F8FD] transition-colors"
@@ -220,7 +302,7 @@ export default function AdminJobsPage() {
                     </div>
 
                     <div className="md:hidden space-y-3">
-                        {paginatedJobs.map((job) => (
+                        {jobs.map((job) => (
                             <div
                                 key={job.id}
                                 className="border border-[#D6DDEB] bg-white p-4"
@@ -306,9 +388,9 @@ export default function AdminJobsPage() {
                                 Showing {(currentPage - 1) * JOBS_PER_PAGE + 1}–
                                 {Math.min(
                                     currentPage * JOBS_PER_PAGE,
-                                    jobs.length,
+                                    totalJobs,
                                 )}{" "}
-                                of {jobs.length} jobs
+                                of {totalJobs} jobs
                             </p>
                             <div className="flex items-center gap-1">
                                 <button

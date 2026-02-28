@@ -100,8 +100,50 @@ export default function EditJobPage() {
 
     if (fetching) {
         return (
-            <div className="flex min-h-[50vh] items-center justify-center">
-                <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#4640DE] border-t-transparent" />
+            <div className="mx-auto max-w-2xl animate-pulse">
+                <div className="h-8 w-32 bg-[#D6DDEB]/50 mb-8" />
+                <div className="border border-[#D6DDEB] bg-white p-6 sm:p-8 space-y-5">
+                    <div>
+                        <div className="h-4 w-20 bg-[#D6DDEB]/50 mb-2" />
+                        <div className="h-10 w-full bg-[#D6DDEB]/50" />
+                    </div>
+                    <div className="grid gap-5 sm:grid-cols-2">
+                        <div>
+                            <div className="h-4 w-20 bg-[#D6DDEB]/50 mb-2" />
+                            <div className="h-10 w-full bg-[#D6DDEB]/50" />
+                        </div>
+                        <div>
+                            <div className="h-4 w-20 bg-[#D6DDEB]/50 mb-2" />
+                            <div className="h-10 w-full bg-[#D6DDEB]/50" />
+                        </div>
+                    </div>
+                    <div className="grid gap-5 sm:grid-cols-2">
+                        <div>
+                            <div className="h-4 w-20 bg-[#D6DDEB]/50 mb-2" />
+                            <div className="h-10 w-full bg-[#D6DDEB]/50" />
+                        </div>
+                        <div>
+                            <div className="h-4 w-20 bg-[#D6DDEB]/50 mb-2" />
+                            <div className="h-10 w-full bg-[#D6DDEB]/50" />
+                        </div>
+                    </div>
+                    <div>
+                        <div className="h-4 w-28 bg-[#D6DDEB]/50 mb-2" />
+                        <div className="h-10 w-full bg-[#D6DDEB]/50" />
+                    </div>
+                    <div>
+                        <div className="h-4 w-32 bg-[#D6DDEB]/50 mb-2" />
+                        <div className="h-10 w-full bg-[#D6DDEB]/50" />
+                    </div>
+                    <div>
+                        <div className="h-4 w-28 bg-[#D6DDEB]/50 mb-2" />
+                        <div className="h-32 w-full bg-[#D6DDEB]/50" />
+                    </div>
+                    <div className="flex gap-3 pt-2">
+                        <div className="h-10 w-28 bg-[#D6DDEB]/50" />
+                        <div className="h-10 w-20 bg-[#D6DDEB]/50" />
+                    </div>
+                </div>
             </div>
         );
     }

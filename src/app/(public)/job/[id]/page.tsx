@@ -97,9 +97,35 @@ export default function JobDetailPage() {
 
     if (loading) {
         return (
-            <div className="flex min-h-[60vh] items-center justify-center">
-                <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#4640DE] border-t-transparent" />
-            </div>
+            <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 animate-pulse">
+                <div className="h-4 w-24 bg-[#D6DDEB]/50 mb-6" />
+                <div className="border border-[#D6DDEB] bg-white p-6 sm:p-8">
+                    <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+                        <div className="flex items-start gap-5">
+                            <div className="h-16 w-16 bg-[#D6DDEB]/50 shrink-0" />
+                            <div className="space-y-3">
+                                <div className="h-7 w-56 bg-[#D6DDEB]/50" />
+                                <div className="h-5 w-40 bg-[#D6DDEB]/50" />
+                                <div className="flex gap-2">
+                                    <div className="h-6 w-20 rounded-full bg-[#D6DDEB]/50" />
+                                    <div className="h-6 w-20 rounded-full bg-[#D6DDEB]/50" />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="h-10 w-28 bg-[#D6DDEB]/50" />
+                    </div>
+                </div>
+                <div className="mt-8 border border-[#D6DDEB] bg-white p-6 sm:p-8">
+                    <div className="h-6 w-40 bg-[#D6DDEB]/50 mb-4" />
+                    <div className="space-y-3">
+                        <div className="h-4 w-full bg-[#D6DDEB]/50" />
+                        <div className="h-4 w-full bg-[#D6DDEB]/50" />
+                        <div className="h-4 w-5/6 bg-[#D6DDEB]/50" />
+                        <div className="h-4 w-full bg-[#D6DDEB]/50" />
+                        <div className="h-4 w-3/4 bg-[#D6DDEB]/50" />
+                    </div>
+                </div>
+            </section>
         );
     }
 
