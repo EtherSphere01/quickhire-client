@@ -44,6 +44,29 @@ export type DashboardStats = {
     }[];
 };
 
+const STATS_CACHE_KEY = "quickhire_stats_cache";
+
+function getCachedStats(): ApiResponse<DashboardStats> | null {
+    try {
+        const raw = sessionStorage.getItem(STATS_CACHE_KEY);
+        if (!raw) return null;
+        const cached = JSON.parse(raw);
+        if (Date.now() - cached._ts > 5 * 60 * 1000) return null;
+        return cached.data;
+    } catch {
+        return null;
+    }
+}
+
+function setCachedStats(data: ApiResponse<DashboardStats>) {
+    try {
+        sessionStorage.setItem(
+            STATS_CACHE_KEY,
+            JSON.stringify({ data, _ts: Date.now() }),
+        );
+    } catch {}
+}
+
 export const jobApi = {
     getStats: async (): Promise<ApiResponse<DashboardStats>> => {
         const res = await fetch(`${API_BASE}/jobs/stats`, {
@@ -52,8 +75,11 @@ export const jobApi = {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || "Failed to fetch stats");
+        setCachedStats(data);
         return data;
     },
+
+    getCachedStats,
 
     getAll: async (params?: JobQueryParams): Promise<ApiResponse<Job[]>> => {
         const searchParams = new URLSearchParams();

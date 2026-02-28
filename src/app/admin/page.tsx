@@ -99,10 +99,18 @@ export default function AdminDashboard() {
 
     const fetchData = useCallback(async () => {
         try {
+            // Show cached data instantly if available
+            const cached = jobApi.getCachedStats();
+            if (cached?.data) {
+                setStats(cached.data);
+                setLoading(false);
+            }
+
+            // Fetch fresh data in background
             const res = await jobApi.getStats();
             setStats(res.data || null);
         } catch {
-            setStats(null);
+            if (!stats) setStats(null);
         } finally {
             setLoading(false);
         }
