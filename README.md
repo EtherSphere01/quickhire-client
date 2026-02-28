@@ -37,7 +37,7 @@ A modern job board frontend built with **Next.js 16**, **React 19**, **Tailwind 
 ## Prerequisites
 
 - **Node.js** >= 18
-- **npm** >= 9
+- **npm** >= 9 / **pnpm** >= 10 / **yarn** >= 1.22
 - Running backend server (see [quickhire-server](../quickhire-server/README.md))
 
 ## Getting Started
@@ -53,6 +53,10 @@ cd quickhire-client
 
 ```bash
 npm install
+# or
+pnpm install
+# or
+yarn install
 ```
 
 ### 3. Environment setup
@@ -71,18 +75,22 @@ cp .env.example .env
 
 ```bash
 npm run dev
+# or
+pnpm dev
+# or
+yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Available Scripts
 
-| Script  | Command         | Description                  |
-| ------- | --------------- | ---------------------------- |
-| `dev`   | `npm run dev`   | Start dev server (Turbopack) |
-| `build` | `npm run build` | Create production build      |
-| `start` | `npm run start` | Start production server      |
-| `lint`  | `npm run lint`  | Run ESLint                   |
+| Script  | npm             | pnpm         | yarn         | Description                  |
+| ------- | --------------- | ------------ | ------------ | ---------------------------- |
+| `dev`   | `npm run dev`   | `pnpm dev`   | `yarn dev`   | Start dev server (Turbopack) |
+| `build` | `npm run build` | `pnpm build` | `yarn build` | Create production build      |
+| `start` | `npm run start` | `pnpm start` | `yarn start` | Start production server      |
+| `lint`  | `npm run lint`  | `pnpm lint`  | `yarn lint`  | Run ESLint                   |
 
 ## Project Structure
 

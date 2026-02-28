@@ -106,14 +106,14 @@ export default function AdminJobsPage() {
                 <>
                     <div className="hidden md:block border border-[#D6DDEB] bg-white">
                         <div className="overflow-x-auto">
-                            <table className="w-full text-left text-sm">
+                            <table className="w-full text-left text-sm min-w-[600px] lg:min-w-0">
                                 <thead>
                                     <tr className="border-b border-[#D6DDEB] text-[#7C8493]">
                                         <th className="p-4 font-medium">Job</th>
-                                        <th className="p-4 font-medium">
+                                        <th className="p-4 font-medium whitespace-nowrap">
                                             Type
                                         </th>
-                                        <th className="p-4 font-medium">
+                                        <th className="p-4 font-medium hidden lg:table-cell">
                                             Category
                                         </th>
                                         <th className="p-4 font-medium">
@@ -169,7 +169,7 @@ export default function AdminJobsPage() {
                                                 </div>
                                             </td>
                                             <td className="p-4">
-                                                <span className="rounded-full bg-[#56CDAD]/10 px-2.5 py-1 text-xs font-semibold text-[#56CDAD]">
+                                                <span className="whitespace-nowrap rounded-full bg-[#56CDAD]/10 px-2.5 py-1 text-xs font-semibold text-[#56CDAD]">
                                                     {
                                                         JOB_TYPE_LABELS[
                                                             job.job_type
@@ -177,7 +177,7 @@ export default function AdminJobsPage() {
                                                     }
                                                 </span>
                                             </td>
-                                            <td className="p-4 text-[#515B6F]">
+                                            <td className="p-4 text-[#515B6F] hidden lg:table-cell">
                                                 {job.category}
                                             </td>
                                             <td className="p-4 text-[#515B6F]">

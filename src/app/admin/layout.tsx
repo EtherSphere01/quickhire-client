@@ -1,9 +1,12 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { Logo } from "@/svg/Logo";
+import { MenuIcon } from "@/svg/header/MenuIcon";
+import { CrossIcon } from "@/svg/header/CrossIcon";
 import type { ReactNode } from "react";
 
 const navItems = [
@@ -14,6 +17,26 @@ const navItems = [
 export default function AdminLayout({ children }: { children: ReactNode }) {
     const { logout, user } = useAuth();
     const pathname = usePathname();
+    const [menuOpen, setMenuOpen] = useState(false);
+    const headerRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        setMenuOpen(false);
+    }, [pathname]);
+
+    useEffect(() => {
+        if (!menuOpen) return;
+        const handleClick = (e: MouseEvent) => {
+            if (
+                headerRef.current &&
+                !headerRef.current.contains(e.target as Node)
+            ) {
+                setMenuOpen(false);
+            }
+        };
+        document.addEventListener("click", handleClick);
+        return () => document.removeEventListener("click", handleClick);
+    }, [menuOpen]);
 
     return (
         <div className="flex min-h-screen bg-[#F8F8FD]">
@@ -58,34 +81,59 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             </aside>
 
             <div className="flex flex-1 flex-col">
-                <header className="flex h-16 items-center justify-between border-b border-[#D6DDEB] bg-white px-4 lg:hidden">
+                <header
+                    ref={headerRef}
+                    className="relative flex h-16 items-center justify-between border-b border-[#D6DDEB] bg-white px-4 lg:hidden"
+                >
                     <Link href="/" className="flex items-center gap-2">
                         <Logo />
                         <span className="text-xl font-bold text-[#25324B] font-(family-name:--font-clash)">
                             QuickHire
                         </span>
                     </Link>
-                    <div className="flex items-center gap-3">
-                        {navItems.map((item) => (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={`text-sm font-medium ${
-                                    pathname === item.href
-                                        ? "text-[#4640DE]"
-                                        : "text-[#515B6F]"
-                                }`}
-                            >
-                                {item.label}
-                            </Link>
-                        ))}
-                        <button
-                            onClick={logout}
-                            className="text-sm text-red-500 hover:text-red-700 cursor-pointer"
-                        >
-                            Logout
-                        </button>
-                    </div>
+
+                    <button
+                        type="button"
+                        onClick={() => setMenuOpen((prev) => !prev)}
+                        className="h-9 w-9 rounded-full bg-white flex items-center justify-center border border-[#D6DDEB] cursor-pointer z-50"
+                    >
+                        {menuOpen ? <CrossIcon /> : <MenuIcon />}
+                    </button>
+
+                    {menuOpen && (
+                        <nav className="absolute left-0 right-0 top-full z-40 mx-4 mt-1 flex flex-col gap-1 border border-[#D6DDEB] bg-white p-4 shadow-lg">
+                            {navItems.map((item) => (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className={`px-4 py-2.5 text-sm font-medium transition-colors ${
+                                        pathname === item.href
+                                            ? "bg-[#4640DE]/10 text-[#4640DE]"
+                                            : "text-[#515B6F] hover:bg-[#F8F8FD]"
+                                    }`}
+                                >
+                                    {item.label}
+                                </Link>
+                            ))}
+                            <div className="border-t border-[#D6DDEB] mt-2 pt-3">
+                                <p className="px-4 text-xs text-[#7C8493] mb-2">
+                                    Signed in as{" "}
+                                    <span className="font-semibold text-[#25324B]">
+                                        {user?.name}
+                                    </span>
+                                </p>
+                                <button
+                                    onClick={() => {
+                                        logout();
+                                        setMenuOpen(false);
+                                    }}
+                                    className="w-full border border-[#D6DDEB] px-4 py-2 text-sm text-red-500 hover:bg-red-50 hover:border-red-200 transition-colors cursor-pointer"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        </nav>
+                    )}
                 </header>
 
                 <main className="flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
